@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Atelier Noir</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .search-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .search-bar {
+            margin: 3rem 0;
+        }
+
+        .search-input-wrapper {
+            display: flex;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .search-btn {
+            padding: 1rem 2rem;
+            background: #0a0a0a;
+            color: #f8f7f4;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .search-filters {
+            display: flex;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #0a0a0a;
+            color: #f8f7f4;
+            border-color: #0a0a0a;
+        }
+
+        .search-results-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .search-results-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .results-count {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .no-results h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1>Search</h1>
+        <p>Find your perfect piece</p>
+    </div>
+
+    <!-- Search Content -->
+    <div class="search-container">
+        <div class="search-bar">
+            <div class="search-input-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search for products...">
+                <button class="search-btn" onclick="performSearch()">🔍</button>
+            </div>
+        </div>
+
+        <div class="search-filters">
+            <button class="filter-btn active" data-category="ALL">All</button>
+            <button class="filter-btn" data-category="TOPS">Tops</button>
+            <button class="filter-btn" data-category="BOTTOMS">Bottoms</button>
+            <button class="filter-btn" data-category="DRESSES">Dresses</button>
+            <button class="filter-btn" data-category="OUTERWEAR">Outerwear</button>
+            <button class="filter-btn" data-category="ACCESSORIES">Accessories</button>
+            <button class="filter-btn" data-category="SKIRTS">Skirts</button>
+        </div>
+
+        <div id="searchResults">
+            <div class="search-results-header">
+                <h2 id="resultsTitle">All Products</h2>
+                <p class="results-count" id="resultsCount">Browse our collection</p>
+            </div>
+
+            <div class="products-grid" id="searchProductsGrid">
+                <!-- Динамічно генеруються товари -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Information</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Customer Service</h4>
+                <ul class="footer-links">
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Atelier Noir. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
+    <script>
+        let currentCategory = 'ALL';
+        let searchQuery = '';
+
+        function renderSearchProducts(products) {
+            const container = document.getElementById('searchProductsGrid');
+            if (!products || products.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>No products found</h3>
+                        <p>Try adjusting your search or filters</p>
+                    </div>
+                `;
+                return;
+            }
+            container.innerHTML = products.map(p => `
+                <div class="product-card fade-in-on-scroll visible" onclick="window.location.href='product-detail.html?id=${p.id}'">
+                    <div class="product-image-wrapper">
+                        <img src="${p.image}" alt="${p.name}" class="product-image" style="object-fit:cover;">
+                        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+                    </div>
+                    <div class="product-info">
+                        <p class="product-category">${p.category}</p>
+                        <h3 class="product-name">${p.name}</h3>
+                        <p class="product-price">$${p.price}</p>
+                    </div>
+                </div>
+            `).join('');
+            document.getElementById('resultsTitle').textContent =
+                currentCategory === 'ALL' ? 'All Products' : currentCategory;
+            document.getElementById('resultsCount').textContent =
+                `${products.length} ${products.length === 1 ? 'product' : 'products'} found`;
+        }
+
+        async function filterProducts() {
+            const products = await searchProducts(searchQuery, currentCategory);
+            renderSearchProducts(products);
+        }
+
+        function performSearch() {
+            searchQuery = document.getElementById('searchInput').value;
+            filterProducts();
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+                filterProducts();
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            filterProducts();
+        });
+    </script>
+</body>
+</html>

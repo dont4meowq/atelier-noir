@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .account-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 3rem 4rem;
+        }
+
+        /* Login/Register Styles */
+        .auth-container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 3rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.05);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .auth-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 1rem;
+            background: var(--accent-cream);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .auth-tab.active {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-gold);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        /* Dashboard Styles */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .dashboard-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+        }
+
+        .btn-logout {
+            padding: 0.8rem 2rem;
+            background: var(--accent-cream);
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .dashboard-nav {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .dashboard-tab {
+            padding: 0.8rem 1.5rem;
+            background: var(--accent-cream);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s;
+        }
+
+        .dashboard-tab.active {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        .dashboard-section {
+            display: none;
+        }
+
+        .dashboard-section.active {
+            display: block;
+        }
+
+        /* Wishlist Styles */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .wishlist-item {
+            position: relative;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .wishlist-item:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-4px);
+            border-color: var(--primary-dark);
+        }
+
+        .wishlist-item img {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .wishlist-remove {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            transition: all 0.3s;
+        }
+
+        .wishlist-remove:hover {
+            background: #c41e3a;
+            color: white;
+        }
+
+        .wishlist-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .wishlist-price {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+            margin-bottom: 1rem;
+        }
+
+        .btn-add-to-cart {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-add-to-cart:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Orders Styles */
+        .order-card {
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .order-number {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .order-status {
+            padding: 0.5rem 1rem;
+            background: var(--accent-cream);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .order-status.delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .order-items {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .order-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Settings Styles */
+        .settings-section {
+            max-width: 600px;
+        }
+
+        .settings-card {
+            background: var(--accent-cream);
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+        }
+
+        .settings-card h3 {
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .dashboard-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="account-wrapper">
+        <!-- Login/Register Section -->
+        <div id="authSection" class="auth-container">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Sign in to access your account</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="loginEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn-submit">Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="registerName" placeholder="John Doe" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="registerEmail" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="dashboard">
+            <div class="dashboard-header">
+                <h1>My Account</h1>
+                <button class="btn-logout" onclick="handleLogout()">Logout</button>
+            </div>
+
+            <div class="dashboard-nav">
+                <button class="dashboard-tab active" onclick="switchDashboardTab('wishlist')">Wishlist</button>
+                <button class="dashboard-tab" onclick="switchDashboardTab('orders')">Orders</button>
+                <button class="dashboard-tab" onclick="switchDashboardTab('settings')">Settings</button>
+            </div>
+
+            <!-- Wishlist Section -->
+            <div id="wishlistSection" class="dashboard-section active">
+                <h2 style="margin-bottom: 2rem;">My Wishlist</h2>
+                <div id="wishlistGrid" class="wishlist-grid"></div>
+                <div id="wishlistEmpty" class="empty-state" style="display: none;">
+                    <h3>Your wishlist is empty</h3>
+                    <p>Add items you love to your wishlist</p>
+                    <a href="collections.html" class="btn-primary" style="margin-top: 1.5rem; display: inline-block;">Browse Collections</a>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="ordersSection" class="dashboard-section">
+                <h2 style="margin-bottom: 2rem;">Order History</h2>
+                <div id="ordersContainer"></div>
+                <div id="ordersEmpty" class="empty-state">
+                    <h3>No orders yet</h3>
+                    <p>Start shopping to see your orders here</p>
+                    <a href="new-arrivals.html" class="btn-primary" style="margin-top: 1.5rem; display: inline-block;">Shop New Arrivals</a>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settingsSection" class="dashboard-section">
+                <h2 style="margin-bottom: 2rem;">Account Settings</h2>
+                <div class="settings-section">
+                    <div class="settings-card">
+                        <h3>Personal Information</h3>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="settingsName" value="">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="settingsEmail" value="" readonly>
+                        </div>
+                        <button class="btn-primary" onclick="saveSettings()">Save Changes</button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Shipping Address</h3>
+                        <div class="form-group">
+                            <label>Address Line 1</label>
+                            <input type="text" id="settingsAddress1" placeholder="123 Main Street">
+                        </div>
+                        <div class="form-group">
+                            <label>City</label>
+                            <input type="text" id="settingsCity" placeholder="New York">
+                        </div>
+                        <div class="form-group">
+                            <label>Postal Code</label>
+                            <input type="text" id="settingsZip" placeholder="10001">
+                        </div>
+                        <button class="btn-primary" onclick="saveAddress()">Save Address</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Expose functions needed by HTML onclick attributes
+        // ==================== GLOBAL FUNCTIONS (called via onclick in HTML) ====================
+        window.switchAuthTab = function(tab) {
+            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        };
+
+        window.handleLogout = async function() {
+            await signOut();
+            showNotification('Logged out successfully');
+            updateNavAuth();
+            location.reload();
+        };
+
+        window.switchDashboardTab = function(tab) {
+            document.querySelectorAll('.dashboard-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Section').classList.add('active');
+            if (tab === 'wishlist') loadWishlist();
+            if (tab === 'orders') loadOrders();
+            if (tab === 'settings') loadSettings();
+        };
+
+        window.saveSettings = async function() {
+            const token = getAccessToken();
+            if (!token) return;
+            const fullName = document.getElementById('settingsName').value.trim();
+            const [firstName, ...rest] = fullName.split(' ');
+            const lastName = rest.join(' ') || '';
+            const user = await getSession();
+            if (!user) return;
+            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({ first_name: firstName, last_name: lastName })
+            });
+            showNotification('Settings saved successfully');
+        };
+
+        window.saveAddress = async function() {
+            const token = getAccessToken();
+            if (!token) return;
+            const user = await getSession();
+            if (!user) return;
+            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    address: document.getElementById('settingsAddress1').value,
+                    city: document.getElementById('settingsCity').value,
+                    postal: document.getElementById('settingsZip').value
+                })
+            });
+            showNotification('Address saved successfully');
+        };
+
+        window.removeFromWishlist = function(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            wishlist = wishlist.filter(id => id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            showNotification('Removed from wishlist');
+            loadWishlist();
+        };
+
+        window.addToCartFromWishlist = async function(productId) {
+            const product = await fetchProductById(productId);
+            if (product) {
+                addToCart(product);
+                window.removeFromWishlist(productId);
+            }
+        };
+
+        // ==================== AUTH ====================
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const token = getAccessToken();
+            if (token) {
+                showDashboard();
+                loadWishlist();
+                loadOrders();
+                loadSettings();
+            }
+            updateNavAuth();
+        });
+
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            if (tab === 'login') {
+                document.querySelector('.auth-tab:first-child').classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelector('.auth-tab:last-child').classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+        }
+
+        window.handleLogin = async function(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Signing in...';
+            btn.disabled = true;
+
+            try {
+                const email = document.getElementById('loginEmail').value;
+                const password = document.getElementById('loginPassword').value;
+                await signIn(email, password);
+                showNotification('Welcome back!');
+                showDashboard();
+                loadWishlist();
+                loadOrders();
+                loadSettings();
+                updateNavAuth();
+            } catch (err) {
+                showNotification('Error: ' + err.message);
+            } finally {
+                btn.textContent = 'Sign In';
+                btn.disabled = false;
+            }
+        }
+
+        window.handleRegister = async function(event) {
+            event.preventDefault();
+            const btn = event.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Creating account...';
+            btn.disabled = true;
+
+            try {
+                const fullName = document.getElementById('registerName').value.trim();
+                const [firstName, ...rest] = fullName.split(' ');
+                const lastName = rest.join(' ') || '';
+                const email = document.getElementById('registerEmail').value;
+                const password = document.getElementById('registerPassword').value;
+
+                if (password.length < 6) throw new Error('Password must be at least 6 characters');
+
+                const data = await signUp(email, password, firstName, lastName);
+
+                // Supabase може вимагати підтвердження email
+                if (data.user && !data.access_token) {
+                    showNotification('Check your email to confirm registration');
+                } else {
+                    await signIn(email, password);
+                    showNotification('Account created! Welcome to Atelier Noir.');
+                    showDashboard();
+                    loadWishlist();
+                    updateNavAuth();
+                }
+            } catch (err) {
+                showNotification('Error: ' + err.message);
+            } finally {
+                btn.textContent = 'Create Account';
+                btn.disabled = false;
+            }
+        }
+
+        async function handleLogout() {
+            await signOut();
+            showNotification('Logged out successfully');
+            updateNavAuth();
+            location.reload();
+        }
+
+        function showDashboard() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboardSection').classList.add('active');
+        }
+
+        function switchDashboardTab(tab) {
+            document.querySelectorAll('.dashboard-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById(tab + 'Section').classList.add('active');
+            if (tab === 'wishlist') loadWishlist();
+            if (tab === 'orders') loadOrders();
+            if (tab === 'settings') loadSettings();
+        }
+
+        // Wishlist Functions
+        async function loadWishlist() {
+            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const grid = document.getElementById('wishlistGrid');
+            const empty = document.getElementById('wishlistEmpty');
+            
+            if (wishlist.length === 0) {
+                grid.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+            
+            grid.style.display = 'grid';
+            empty.style.display = 'none';
+            grid.innerHTML = '';
+            
+            for (const productId of wishlist) {
+                const product = await fetchProductById(productId);
+                if (product) {
+                    const card = document.createElement('div');
+                    card.className = 'wishlist-item';
+                    card.style.cursor = 'pointer';
+                    card.onclick = () => window.location.href = `product-detail.html?id=${product.id}`;
+                    card.innerHTML = `
+                        <button class="wishlist-remove" onclick="event.stopPropagation(); removeFromWishlist(${product.id})">×</button>
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="wishlist-info">
+                            <h3>${product.name}</h3>
+                            <p class="wishlist-price">$${product.price}</p>
+                            <button class="btn-add-to-cart" onclick="event.stopPropagation(); addToCartFromWishlist(${product.id})">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            }
+        }
+
+        function removeFromWishlist(productId) {
+            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            wishlist = wishlist.filter(id => id !== productId);
+            localStorage.setItem('wishlist', JSON.stringify(wishlist));
+            showNotification('Removed from wishlist');
+            loadWishlist();
+        }
+
+        async function addToCartFromWishlist(productId) {
+            const product = await fetchProductById(productId);
+            if (product) {
+                addToCart(productId);
+                removeFromWishlist(productId);
+            }
+        }
+
+        // Orders Functions
+        async function loadOrders() {
+            const container = document.getElementById('ordersContainer');
+            const empty = document.getElementById('ordersEmpty');
+
+            const email = localStorage.getItem('customerEmail');
+            if (!email) {
+                container.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            // Отримати замовлення по email
+            const ordersRes = await fetch(
+                `${SUPABASE_URL}/rest/v1/orders?email=eq.${encodeURIComponent(email)}&order=created_at.desc`,
+                { headers: SB_HEADERS }
+            );
+            const orders = await ordersRes.json();
+
+            if (!orders.length) {
+                container.style.display = 'none';
+                empty.style.display = 'block';
+                return;
+            }
+
+            container.style.display = 'block';
+            empty.style.display = 'none';
+            container.innerHTML = '';
+
+            for (const order of orders) {
+                // Отримати товари замовлення
+                const itemsRes = await fetch(
+                    `${SUPABASE_URL}/rest/v1/order_items?order_id=eq.${order.id}`,
+                    { headers: SB_HEADERS }
+                );
+                const items = await itemsRes.json();
+
+                const itemsHTML = items.map(item => `
+                    <div class="order-item">
+                        <img src="${item.image}" alt="${item.name}" style="width:60px;height:80px;object-fit:cover;border-radius:4px;">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            ${item.selected_size ? `Size: ${item.selected_size}<br>` : ''}
+                            ${item.selected_color ? `Color: ${item.selected_color}<br>` : ''}
+                            Qty: ${item.quantity} × $${item.price}
+                        </div>
+                    </div>
+                `).join('');
+
+                const statusColors = {
+                    processing: '#d4af37',
+                    shipped: '#3b82f6',
+                    delivered: '#22c55e',
+                    cancelled: '#ef4444'
+                };
+                const statusColor = statusColors[order.status] || '#888';
+
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <div>
+                            <div class="order-number">Order ${order.order_number}</div>
+                            <small>${new Date(order.created_at).toLocaleDateString()}</small>
+                        </div>
+                        <div class="order-status" style="color:${statusColor};font-weight:600;font-size:0.85rem;letter-spacing:1px;">
+                            ${order.status.toUpperCase()}
+                        </div>
+                    </div>
+                    <div class="order-items">${itemsHTML}</div>
+                    <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border-subtle);display:flex;justify-content:space-between;">
+                        <span style="color:var(--text-muted);font-size:0.9rem;">Shipping: $${order.shipping === 0 ? 'FREE' : order.shipping}</span>
+                        <span style="font-weight:600;">Total: $${order.total}</span>
+                    </div>
+                `;
+                container.appendChild(orderCard);
+            }
+        }
+
+        // ==================== SETTINGS ====================
+
+        async function loadSettings() {
+            const token = getAccessToken();
+            if (!token) return;
+
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&limit=1`, {
+                headers: authHeaders()
+            });
+            const data = await res.json();
+            const profile = data[0] || {};
+
+            document.getElementById('settingsName').value =
+                [profile.first_name, profile.last_name].filter(Boolean).join(' ');
+            document.getElementById('settingsEmail').value = profile.email || localStorage.getItem('customerEmail') || '';
+            document.getElementById('settingsAddress1').value = profile.address || '';
+            document.getElementById('settingsCity').value = profile.city || '';
+            document.getElementById('settingsZip').value = profile.postal || '';
+        }
+
+        async function saveSettings() {
+            const token = getAccessToken();
+            if (!token) return;
+
+            const fullName = document.getElementById('settingsName').value.trim();
+            const [firstName, ...rest] = fullName.split(' ');
+            const lastName = rest.join(' ') || '';
+
+            const user = await getSession();
+            if (!user) return;
+
+            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({ first_name: firstName, last_name: lastName })
+            });
+            showNotification('Settings saved successfully');
+        }
+
+        async function saveAddress() {
+            const token = getAccessToken();
+            if (!token) return;
+
+            const user = await getSession();
+            if (!user) return;
+
+            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    address: document.getElementById('settingsAddress1').value,
+                    city: document.getElementById('settingsCity').value,
+                    postal: document.getElementById('settingsZip').value
+                })
+            });
+            showNotification('Address saved successfully');
+        }
+
+    </script>
+</body>
+</html>
