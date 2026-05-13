@@ -749,18 +749,26 @@
 
             try {
                 if (editId) {
-                    await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${editId}`, {
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${editId}`, {
                         method: 'PATCH',
-                        headers: authHeaders(),
+                        headers: { ...authHeaders(), 'Prefer': 'return=representation' },
                         body: JSON.stringify(payload)
                     });
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.message || 'Update failed: ' + res.status);
+                    }
                     showNotification('Product updated successfully');
                 } else {
-                    await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/products`, {
                         method: 'POST',
-                        headers: authHeaders(),
+                        headers: { ...authHeaders(), 'Prefer': 'return=representation' },
                         body: JSON.stringify(payload)
                     });
+                    if (!res.ok) {
+                        const err = await res.json();
+                        throw new Error(err.message || 'Insert failed: ' + res.status);
+                    }
                     showNotification('Product added successfully');
                 }
                 resetProductForm();
@@ -768,6 +776,7 @@
                 updateStats();
             } catch (err) {
                 showNotification('Error: ' + err.message);
+                console.error('saveProduct error:', err);
             }
         }
 
