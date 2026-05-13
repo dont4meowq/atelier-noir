@@ -729,7 +729,25 @@
                 body: JSON.stringify(items)
             });
 
-            // 3. Очистити кошик і показати успіх
+            // 3. Зменшити кількість товарів в наявності
+            for (const item of cart) {
+                // Отримати поточний stock
+                const stockRes = await fetch(
+                    `${SUPABASE_URL}/rest/v1/products?id=eq.${item.id}&select=stock`,
+                    { headers: SB_HEADERS }
+                );
+                const stockData = await stockRes.json();
+                if (stockData && stockData[0]) {
+                    const newStock = Math.max(0, (stockData[0].stock || 0) - item.quantity);
+                    await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${item.id}`, {
+                        method: 'PATCH',
+                        headers: { ...SB_HEADERS, 'Authorization': `Bearer ${getAccessToken() || ''}` },
+                        body: JSON.stringify({ stock: newStock })
+                    });
+                }
+            }
+
+            // 4. Очистити кошик і показати успіх
             localStorage.removeItem('cart');
             updateCartCount();
 
