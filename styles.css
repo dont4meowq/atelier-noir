@@ -958,3 +958,40 @@ footer {
     animation: heartBeat 0.3s ease;
 }
 
+
+/* Stock Status */
+.out-of-stock-card {
+    opacity: 0.85;
+}
+
+.out-of-stock-card:hover {
+    transform: none !important;
+}
+
+.stock-warning {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: #c41e3a;
+    color: white;
+    padding: 0.2rem 0.6rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.out-of-stock-btn {
+    background: #888 !important;
+    cursor: not-allowed !important;
+    color: white !important;
+}
+
+.stock-info {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.stock-info.low { color: #c41e3a; font-weight: 600; }
+.stock-info.available { color: #2d6a4f; }
+.stock-info.unavailable { color: #888; }

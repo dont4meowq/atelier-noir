@@ -426,7 +426,8 @@
             </div>
 
             <div class="add-to-cart-section">
-                <button class="add-to-cart-btn" onclick="addCurrentProductToCart()">Add to Cart</button>
+                <button class="add-to-cart-btn" id="addToCartBtn" onclick="addCurrentProductToCart()">Add to Cart</button>
+                <div id="stockInfo" class="stock-info"></div>
             </div>
 
             <button class="btn-wishlist-large" id="wishlistBtn" onclick="toggleProductWishlist()">
@@ -647,6 +648,23 @@
             });
 
             await renderRelatedProducts(currentProduct.id, currentProduct.category);
+
+            // Stock status
+            const btn = document.getElementById('addToCartBtn');
+            const stockInfo = document.getElementById('stockInfo');
+            if (currentProduct.stock === 0) {
+                btn.textContent = 'Out of Stock';
+                btn.classList.add('out-of-stock-btn');
+                btn.onclick = null;
+                stockInfo.textContent = 'This item is currently unavailable';
+                stockInfo.className = 'stock-info unavailable';
+            } else if (currentProduct.stock <= 3) {
+                stockInfo.textContent = `Only ${currentProduct.stock} left in stock`;
+                stockInfo.className = 'stock-info low';
+            } else {
+                stockInfo.textContent = 'In Stock';
+                stockInfo.className = 'stock-info available';
+            }
         }
 
         function selectSize(size, element) {

@@ -284,11 +284,20 @@ const observer = new IntersectionObserver((entries) => {
 // ==================== RENDER ====================
 
 function renderProductCard(product) {
+    const outOfStock = product.stock === 0;
+    const lowStock = product.stock > 0 && product.stock <= 3;
     return `
-        <div class="product-card fade-in-on-scroll" onclick="window.location.href='product-detail.html?id=${product.id}'">
+        <div class="product-card fade-in-on-scroll ${outOfStock ? 'out-of-stock-card' : ''}"
+             onclick="${outOfStock ? '' : `window.location.href='product-detail.html?id=${product.id}'`}"
+             style="${outOfStock ? 'cursor:default;' : ''}">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image" style="object-fit:cover;">
-                ${product.badge ? `<span class="product-badge">${product.badge}</span>` : ''}
+                <img src="${product.image}" alt="${product.name}" class="product-image"
+                     style="object-fit:cover;${outOfStock ? 'filter:grayscale(60%);opacity:0.7;' : ''}">
+                ${outOfStock
+                    ? '<span class="product-badge" style="background:#888;">OUT OF STOCK</span>'
+                    : product.badge ? `<span class="product-badge">${product.badge}</span>` : ''
+                }
+                ${lowStock ? `<span class="stock-warning">Only ${product.stock} left</span>` : ''}
             </div>
             <div class="product-info">
                 <p class="product-category">${product.category}</p>
