@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-wrapper {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .admin-header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .admin-tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .admin-tab.active {
+            color: var(--primary-dark);
+            border-bottom-color: var(--primary-dark);
+        }
+
+        .admin-section { display: none; }
+        .admin-section.active { display: block; }
+
+        /* Access Denied */
+        .access-denied {
+            text-align: center;
+            padding: 6rem 2rem;
+        }
+
+        .access-denied h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        /* Login form */
+        .admin-login {
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 3rem;
+            background: var(--accent-cream);
+        }
+
+        .admin-login h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        /* Forms */
+        .admin-form {
+            background: var(--accent-cream);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-form h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-grid .full-width { grid-column: 1 / -1; }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-subtle);
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn-admin {
+            padding: 0.75rem 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary-admin {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+        }
+
+        .btn-primary-admin:hover { background: var(--accent-gold); color: var(--primary-dark); }
+
+        .btn-secondary-admin {
+            background: transparent;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-dark);
+        }
+
+        .btn-danger {
+            background: #c41e3a;
+            color: white;
+        }
+
+        /* Tables */
+        .admin-table-wrapper { overflow-x: auto; }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .admin-table th {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+        }
+
+        .admin-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            vertical-align: middle;
+        }
+
+        .admin-table tr:hover td { background: var(--accent-cream); }
+
+        .admin-table img {
+            width: 50px;
+            height: 60px;
+            object-fit: cover;
+        }
+
+        .product-name-cell { font-weight: 500; max-width: 200px; }
+        .category-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            background: var(--accent-cream);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .status-processing { background: #fff3cd; color: #856404; }
+        .status-shipped { background: #cce5ff; color: #004085; }
+        .status-delivered { background: #d4edda; color: #155724; }
+        .status-cancelled { background: #f8d7da; color: #721c24; }
+
+        .action-btns { display: flex; gap: 0.5rem; }
+
+        .btn-edit {
+            padding: 0.3rem 0.75rem;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .btn-delete {
+            padding: 0.3rem 0.75rem;
+            background: #c41e3a;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-select {
+            padding: 0.3rem 0.5rem;
+            border: 1px solid var(--border-subtle);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.8rem;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--accent-cream);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            align-items: center;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1px solid var(--border-subtle);
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .badge-new {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Login Screen -->
+    <div id="adminLoginScreen">
+        <div class="admin-login">
+            <h2>Admin Access</h2>
+            <div class="form-group" style="margin-bottom:1rem;">
+                <label>Email</label>
+                <input type="email" id="adminEmail" placeholder="your@email.com">
+            </div>
+            <div class="form-group" style="margin-bottom:1.5rem;">
+                <label>Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter password">
+            </div>
+            <button class="btn-admin btn-primary-admin" style="width:100%;" onclick="adminLogin()">Sign In</button>
+        </div>
+    </div>
+
+    <!-- Access Denied -->
+    <div id="accessDenied" style="display:none;">
+        <div class="access-denied">
+            <h2>Access Denied</h2>
+            <p style="color:var(--text-muted);margin-bottom:2rem;">You do not have admin privileges.</p>
+            <a href="index.html" class="btn-primary">Back to Store</a>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" style="display:none;">
+        <div class="admin-wrapper">
+            <div class="admin-header">
+                <h1>Admin Panel</h1>
+                <div style="display:flex;gap:1rem;align-items:center;">
+                    <span id="adminEmailDisplay" style="font-size:0.85rem;color:var(--text-muted);"></span>
+                    <button class="btn-admin btn-secondary-admin" onclick="adminLogout()">Logout</button>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="statProducts">—</div>
+                    <div class="stat-label">Products</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statOrders">—</div>
+                    <div class="stat-label">Orders</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statProcessing">—</div>
+                    <div class="stat-label">Processing</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="statRevenue">—</div>
+                    <div class="stat-label">Revenue</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="admin-tabs">
+                <button class="admin-tab active" onclick="switchAdminTab('products', this)">Products</button>
+                <button class="admin-tab" onclick="switchAdminTab('orders', this)">Orders</button>
+            </div>
+
+            <!-- Products Section -->
+            <div id="adminProducts" class="admin-section active">
+
+                <!-- Add Product Form -->
+                <div class="admin-form" id="productForm">
+                    <h3 id="formTitle">Add New Product</h3>
+                    <input type="hidden" id="editProductId">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input type="text" id="pName" placeholder="Product name">
+                        </div>
+                        <div class="form-group">
+                            <label>Category *</label>
+                            <select id="pCategory">
+                                <option value="">Select category</option>
+                                <option value="TOPS">TOPS</option>
+                                <option value="BOTTOMS">BOTTOMS</option>
+                                <option value="DRESSES">DRESSES</option>
+                                <option value="OUTERWEAR">OUTERWEAR</option>
+                                <option value="ACCESSORIES">ACCESSORIES</option>
+                                <option value="SKIRTS">SKIRTS</option>
+                                <option value="SETS">SETS</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Price *</label>
+                            <input type="number" id="pPrice" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label>Badge</label>
+                            <select id="pBadge">
+                                <option value="">None</option>
+                                <option value="NEW">NEW</option>
+                                <option value="SALE">SALE</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Image URL *</label>
+                            <input type="text" id="pImage" placeholder="https://images.unsplash.com/...">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Description</label>
+                            <textarea id="pDescription" placeholder="Product description..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Sizes (comma separated)</label>
+                            <input type="text" id="pSizes" placeholder="XS, S, M, L, XL">
+                        </div>
+                        <div class="form-group">
+                            <label>Colors (comma separated)</label>
+                            <input type="text" id="pColors" placeholder="Black, White, Navy">
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Features (comma separated)</label>
+                            <input type="text" id="pFeatures" placeholder="100% Silk, Dry Clean Only">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn-admin btn-primary-admin" onclick="saveProduct()">Save Product</button>
+                        <button class="btn-admin btn-secondary-admin" onclick="resetProductForm()">Cancel</button>
+                    </div>
+                </div>
+
+                <!-- Products Table -->
+                <div class="search-bar">
+                    <input type="text" id="productSearch" placeholder="Search products..." oninput="filterProductsTable()">
+                    <select id="categoryFilter" onchange="filterProductsTable()" style="padding:0.6rem 1rem;border:1px solid var(--border-subtle);font-family:'Montserrat',sans-serif;">
+                        <option value="">All Categories</option>
+                        <option value="TOPS">TOPS</option>
+                        <option value="BOTTOMS">BOTTOMS</option>
+                        <option value="DRESSES">DRESSES</option>
+                        <option value="OUTERWEAR">OUTERWEAR</option>
+                        <option value="ACCESSORIES">ACCESSORIES</option>
+                        <option value="SKIRTS">SKIRTS</option>
+                        <option value="SETS">SETS</option>
+                    </select>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Photo</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Badge</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div id="adminOrders" class="admin-section">
+                <div class="search-bar">
+                    <input type="text" id="orderSearch" placeholder="Search by email or order number..." oninput="filterOrdersTable()">
+                    <select id="statusFilter" onchange="filterOrdersTable()" style="padding:0.6rem 1rem;border:1px solid var(--border-subtle);font-family:'Montserrat',sans-serif;">
+                        <option value="">All Statuses</option>
+                        <option value="processing">Processing</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+
+                <div class="admin-table-wrapper">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Order #</th>
+                                <th>Date</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Change Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">Loading...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let allProducts = [];
+        let allOrders = [];
+
+        // ==================== AUTH ====================
+
+        async function adminLogin() {
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
+
+            if (!email || !password) {
+                showNotification('Please enter email and password');
+                return;
+            }
+
+            try {
+                await signIn(email, password);
+                await checkAdminAccess();
+            } catch (err) {
+                showNotification('Error: ' + err.message);
+            }
+        }
+
+        async function checkAdminAccess() {
+            const token = getAccessToken();
+            if (!token) {
+                document.getElementById('adminLoginScreen').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'none';
+                return;
+            }
+
+            // Отримати email поточного користувача
+            const user = await getSession();
+            if (!user) {
+                document.getElementById('adminLoginScreen').style.display = 'block';
+                return;
+            }
+
+            // Перевірити чи є email в таблиці admins
+            const res = await fetch(
+                `${SUPABASE_URL}/rest/v1/admins?email=eq.${encodeURIComponent(user.email)}&limit=1`,
+                { headers: authHeaders() }
+            );
+            const data = await res.json();
+
+            if (data && data.length > 0) {
+                // Доступ дозволено
+                document.getElementById('adminLoginScreen').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminEmailDisplay').textContent = user.email;
+                loadAdminData();
+            } else {
+                // Не адмін
+                document.getElementById('adminLoginScreen').style.display = 'none';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('accessDenied').style.display = 'block';
+            }
+        }
+
+        async function adminLogout() {
+            await signOut();
+            document.getElementById('adminPanel').style.display = 'none';
+            document.getElementById('accessDenied').style.display = 'none';
+            document.getElementById('adminLoginScreen').style.display = 'block';
+            document.getElementById('adminEmail').value = '';
+            document.getElementById('adminPassword').value = '';
+        }
+
+        // ==================== TABS ====================
+
+        function switchAdminTab(tab, btn) {
+            document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('admin' + tab.charAt(0).toUpperCase() + tab.slice(1)).classList.add('active');
+        }
+
+        // ==================== LOAD DATA ====================
+
+        async function loadAdminData() {
+            await Promise.all([loadProducts(), loadOrders()]);
+            updateStats();
+        }
+
+        async function loadProducts() {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/products?order=id.asc`, { headers: authHeaders() });
+            allProducts = await res.json();
+            renderProductsTable(allProducts);
+        }
+
+        async function loadOrders() {
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?order=created_at.desc`, { headers: authHeaders() });
+            allOrders = await res.json();
+            renderOrdersTable(allOrders);
+        }
+
+        function updateStats() {
+            document.getElementById('statProducts').textContent = allProducts.length;
+            document.getElementById('statOrders').textContent = allOrders.length;
+            document.getElementById('statProcessing').textContent = allOrders.filter(o => o.status === 'processing').length;
+            const revenue = allOrders.filter(o => o.status !== 'cancelled').reduce((sum, o) => sum + parseFloat(o.total || 0), 0);
+            document.getElementById('statRevenue').textContent = '$' + revenue.toFixed(0);
+        }
+
+        // ==================== PRODUCTS TABLE ====================
+
+        function renderProductsTable(products) {
+            const tbody = document.getElementById('productsTableBody');
+            if (!products.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">No products found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = products.map(p => `
+                <tr>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${p.id}</td>
+                    <td><img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/50x60/e8e3d8/6b6b6b'"></td>
+                    <td class="product-name-cell">
+                        ${p.name}
+                        ${p.badge ? `<span class="badge-new">${p.badge}</span>` : ''}
+                    </td>
+                    <td><span class="category-badge">${p.category}</span></td>
+                    <td style="font-weight:600;">$${p.price}</td>
+                    <td>${p.badge || '—'}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-edit" onclick="editProduct(${p.id})">Edit</button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id}, '${p.name}')">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterProductsTable() {
+            const query = document.getElementById('productSearch').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            let filtered = allProducts;
+            if (query) filtered = filtered.filter(p => p.name.toLowerCase().includes(query));
+            if (category) filtered = filtered.filter(p => p.category === category);
+            renderProductsTable(filtered);
+        }
+
+        // ==================== PRODUCT CRUD ====================
+
+        function resetProductForm() {
+            document.getElementById('editProductId').value = '';
+            document.getElementById('formTitle').textContent = 'Add New Product';
+            ['pName','pImage','pDescription','pSizes','pColors','pFeatures'].forEach(id => document.getElementById(id).value = '');
+            document.getElementById('pCategory').value = '';
+            document.getElementById('pPrice').value = '';
+            document.getElementById('pBadge').value = '';
+        }
+
+        function editProduct(id) {
+            const p = allProducts.find(x => x.id === id);
+            if (!p) return;
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('formTitle').textContent = 'Edit Product — ' + p.name;
+            document.getElementById('pName').value = p.name;
+            document.getElementById('pCategory').value = p.category;
+            document.getElementById('pPrice').value = p.price;
+            document.getElementById('pBadge').value = p.badge || '';
+            document.getElementById('pImage').value = p.image;
+            document.getElementById('pDescription').value = p.description || '';
+            document.getElementById('pSizes').value = (p.sizes || []).join(', ');
+            document.getElementById('pColors').value = (p.colors || []).join(', ');
+            document.getElementById('pFeatures').value = (p.features || []).join(', ');
+            document.getElementById('productForm').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function saveProduct() {
+            const editId = document.getElementById('editProductId').value;
+            const name = document.getElementById('pName').value.trim();
+            const category = document.getElementById('pCategory').value;
+            const price = parseFloat(document.getElementById('pPrice').value);
+            const image = document.getElementById('pImage').value.trim();
+
+            if (!name || !category || !price || !image) {
+                showNotification('Please fill in required fields');
+                return;
+            }
+
+            const payload = {
+                name,
+                category,
+                price,
+                image,
+                images: [image],
+                badge: document.getElementById('pBadge').value || null,
+                description: document.getElementById('pDescription').value.trim() || null,
+                sizes: document.getElementById('pSizes').value.split(',').map(s => s.trim()).filter(Boolean),
+                colors: document.getElementById('pColors').value.split(',').map(s => s.trim()).filter(Boolean),
+                features: document.getElementById('pFeatures').value.split(',').map(s => s.trim()).filter(Boolean),
+            };
+
+            try {
+                if (editId) {
+                    await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${editId}`, {
+                        method: 'PATCH',
+                        headers: authHeaders(),
+                        body: JSON.stringify(payload)
+                    });
+                    showNotification('Product updated successfully');
+                } else {
+                    await fetch(`${SUPABASE_URL}/rest/v1/products`, {
+                        method: 'POST',
+                        headers: authHeaders(),
+                        body: JSON.stringify(payload)
+                    });
+                    showNotification('Product added successfully');
+                }
+                resetProductForm();
+                await loadProducts();
+                updateStats();
+            } catch (err) {
+                showNotification('Error: ' + err.message);
+            }
+        }
+
+        async function deleteProduct(id, name) {
+            if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+            await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}`, {
+                method: 'DELETE',
+                headers: authHeaders()
+            });
+            showNotification(`"${name}" deleted`);
+            await loadProducts();
+            updateStats();
+        }
+
+        // ==================== ORDERS TABLE ====================
+
+        function renderOrdersTable(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            if (!orders.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--text-muted);">No orders found</td></tr>';
+                return;
+            }
+            tbody.innerHTML = orders.map(o => `
+                <tr>
+                    <td style="font-weight:600;">${o.order_number}</td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${new Date(o.created_at).toLocaleDateString()}</td>
+                    <td>${o.first_name} ${o.last_name}</td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${o.email}</td>
+                    <td style="font-weight:600;">$${o.total}</td>
+                    <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+                    <td>
+                        <select class="status-select" onchange="updateOrderStatus(${o.id}, this.value)">
+                            <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>Processing</option>
+                            <option value="shipped" ${o.status === 'shipped' ? 'selected' : ''}>Shipped</option>
+                            <option value="delivered" ${o.status === 'delivered' ? 'selected' : ''}>Delivered</option>
+                            <option value="cancelled" ${o.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+                        </select>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterOrdersTable() {
+            const query = document.getElementById('orderSearch').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            let filtered = allOrders;
+            if (query) filtered = filtered.filter(o =>
+                o.email.toLowerCase().includes(query) ||
+                o.order_number.toLowerCase().includes(query) ||
+                `${o.first_name} ${o.last_name}`.toLowerCase().includes(query)
+            );
+            if (status) filtered = filtered.filter(o => o.status === status);
+            renderOrdersTable(filtered);
+        }
+
+        async function updateOrderStatus(id, status) {
+            await fetch(`${SUPABASE_URL}/rest/v1/orders?id=eq.${id}`, {
+                method: 'PATCH',
+                headers: authHeaders(),
+                body: JSON.stringify({ status })
+            });
+            const order = allOrders.find(o => o.id === id);
+            if (order) order.status = status;
+            showNotification('Status updated to ' + status);
+            updateStats();
+        }
+
+        // ==================== INIT ====================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateCartCount();
+            checkAdminAccess();
+
+            document.getElementById('adminPassword').addEventListener('keyup', e => {
+                if (e.key === 'Enter') adminLogin();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Detail - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .product-detail {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .product-gallery {
+            position: sticky;
+            top: 120px;
+            height: fit-content;
+        }
+
+        .main-image {
+            width: 100%;
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        .thumbnail {
+            aspect-ratio: 3/4;
+            background-size: cover;
+            background-position: center;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .thumbnail:hover,
+        .thumbnail.active {
+            border-color: var(--accent-gold);
+        }
+
+        .product-details h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-details .product-category {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .price-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .price-section .price {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .price-section .original-price {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            text-decoration: line-through;
+            margin-left: 1rem;
+        }
+
+        .product-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .size-selector,
+        .color-selector {
+            margin-bottom: 2rem;
+        }
+
+        .size-selector h3,
+        .color-selector h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .size-options,
+        .color-options {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .size-option,
+        .color-option {
+            padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .size-option:hover,
+        .color-option:hover {
+            border-color: var(--accent-gold);
+        }
+
+        .size-option.selected,
+        .color-option.selected {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            border-color: var(--primary-dark);
+        }
+
+        .quantity-selector {
+            margin-bottom: 2rem;
+        }
+
+        .quantity-selector h3 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .quantity-btn:hover {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid var(--border-subtle);
+            font-size: 1rem;
+        }
+
+        .add-to-cart-section {
+            margin-bottom: 2rem;
+        }
+
+        .add-to-cart-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .wishlist-btn {
+            width: 100%;
+            padding: 1rem;
+            background: transparent;
+            color: var(--primary-dark);
+            border: 1px solid var(--primary-dark);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .wishlist-btn:hover {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+        }
+
+        .product-features {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .product-features h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .product-features ul {
+            list-style: none;
+        }
+
+        .product-features li {
+            padding: 0.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .product-features li::before {
+            content: "✓ ";
+            color: var(--accent-gold);
+            margin-right: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-detail {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .product-gallery {
+                position: static;
+            }
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating-number {
+            font-size: 3rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .rating-stars {
+            font-size: 1.5rem;
+            color: #f9a825;
+        }
+
+        .review-card {
+            background: white;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .verified-badge {
+            background: #2d7a2d;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .review-stars {
+            color: #f9a825;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .review-helpful {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .review-helpful button {
+            background: none;
+            border: 1px solid var(--border-subtle);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .review-helpful button:hover {
+            background: var(--accent-cream);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / <a href="new-arrivals.html">New Arrivals</a> / <span id="breadcrumb-product">Product</span>
+        </div>
+    </div>
+
+    <!-- Product Detail -->
+    <section class="product-detail">
+        <div class="product-gallery">
+            <img id="mainImage" class="main-image" src="" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover;">
+            <div class="thumbnail-grid" id="thumbnailGrid">
+                <!-- Thumbnails will be loaded dynamically -->
+            </div>
+        </div>
+
+        <div class="product-details">
+            <p class="product-category" id="productCategory">CATEGORY</p>
+            <h1 id="productName">Product Name</h1>
+            
+            <div class="price-section">
+                <span class="price" id="productPrice">$0</span>
+                <span class="original-price" id="productOriginalPrice" style="display: none;"></span>
+            </div>
+
+            <p class="product-description" id="productDescription">
+                Product description will be loaded here.
+            </p>
+
+            <div class="size-selector">
+                <h3>Select Size</h3>
+                <div class="size-options" id="sizeOptions">
+                    <!-- Sizes will be loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="color-selector">
+                <h3>Select Color</h3>
+                <div class="color-options" id="colorOptions">
+                    <!-- Colors will be loaded dynamically -->
+                </div>
+            </div>
+
+            <div class="quantity-selector">
+                <h3>Quantity</h3>
+                <div class="quantity-controls">
+                    <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                    <input type="number" class="quantity-input" id="quantity" value="1" min="1" max="10">
+                    <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                </div>
+            </div>
+
+            <div class="add-to-cart-section">
+                <button class="add-to-cart-btn" onclick="addCurrentProductToCart()">Add to Cart</button>
+            </div>
+
+            <button class="btn-wishlist-large" id="wishlistBtn" onclick="toggleProductWishlist()">
+                <span id="wishlistIcon">🤍</span>
+                <span id="wishlistText">Add to Wishlist</span>
+            </button>
+
+            <div class="product-features">
+                <h3>Product Features</h3>
+                <ul id="productFeatures">
+                    <!-- Features will be loaded dynamically -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Products -->
+    <section class="featured">
+        <div class="section-header">
+            <p class="section-label">You May Also Like</p>
+            <h2 class="section-title">Related Products</h2>
+        </div>
+
+        <div class="products-grid" id="related-products-grid">
+            <div class="product-card" onclick="window.location.href='product-detail.html?id=2'">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&q=90" alt="Tailored Trousers" class="product-image" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <p class="product-category">BOTTOMS</p>
+                    <h3 class="product-name">Wide Leg Trousers</h3>
+                    <p class="product-price">$345</p>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="window.location.href='product-detail.html?id=5'">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=90" alt="Cashmere Sweater" class="product-image" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <p class="product-category">KNITWEAR</p>
+                    <h3 class="product-name">Cashmere Turtleneck</h3>
+                    <p class="product-price">$425</p>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="window.location.href='product-detail.html?id=6'">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=600&q=90" alt="Midi Skirt" class="product-image" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <p class="product-category">SKIRTS</p>
+                    <h3 class="product-name">Pleated Midi Skirt</h3>
+                    <p class="product-price">$298</p>
+                </div>
+            </div>
+
+            <div class="product-card" onclick="window.location.href='product-detail.html?id=7'">
+                <div class="product-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=90" alt="Designer Bag" class="product-image" style="object-fit: cover;">
+                </div>
+                <div class="product-info">
+                    <p class="product-category">BAGS</p>
+                    <h3 class="product-name">Structured Handbag</h3>
+                    <p class="product-price">$675</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <div class="reviews-header">
+            <div>
+                <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem;">Customer Reviews</h2>
+                <div class="rating-summary">
+                    <span class="rating-number">4.8</span>
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">
+                            Based on 127 reviews
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reviews List -->
+        <div id="reviewsList">
+            <!-- Reviews will be loaded by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
+    <script>
+        let selectedSize = null;
+        let selectedColor = null;
+        let currentProduct = null;
+
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        async function loadProduct() {
+            const productId = parseInt(getQueryParam('id') || '1');
+            currentProduct = await fetchProductById(productId);
+            if (!currentProduct) return;
+
+            document.getElementById('breadcrumb-product').textContent = currentProduct.name;
+            document.getElementById('productName').textContent = currentProduct.name;
+            document.getElementById('productCategory').textContent = currentProduct.category;
+            document.getElementById('productPrice').textContent = '$' + currentProduct.price;
+            document.getElementById('productDescription').textContent = currentProduct.description;
+            setTimeout(updateProductWishlistButton, 50);
+
+            // Images
+            const imgs = (currentProduct.images && currentProduct.images.length > 0)
+                ? currentProduct.images : [currentProduct.image];
+            document.getElementById('mainImage').src = imgs[0];
+            const thumbnailGrid = document.getElementById('thumbnailGrid');
+            thumbnailGrid.innerHTML = '';
+            imgs.forEach((imgUrl, index) => {
+                const thumb = document.createElement('div');
+                thumb.className = 'thumbnail' + (index === 0 ? ' active' : '');
+                thumb.style.cssText = `background-image:url('${imgUrl}');background-size:cover;background-position:center;`;
+                thumb.onclick = () => {
+                    document.getElementById('mainImage').src = imgUrl;
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    thumb.classList.add('active');
+                };
+                thumbnailGrid.appendChild(thumb);
+            });
+
+            if (currentProduct.original_price) {
+                document.getElementById('productOriginalPrice').textContent = '$' + currentProduct.original_price;
+                document.getElementById('productOriginalPrice').style.display = 'inline';
+            }
+
+            // Sizes
+            const sizeOptions = document.getElementById('sizeOptions');
+            sizeOptions.innerHTML = '';
+            currentProduct.sizes.forEach(size => {
+                const btn = document.createElement('button');
+                btn.className = 'size-option';
+                btn.textContent = size;
+                btn.onclick = () => selectSize(size, btn);
+                sizeOptions.appendChild(btn);
+            });
+
+            // Colors
+            const colorOptions = document.getElementById('colorOptions');
+            colorOptions.innerHTML = '';
+            currentProduct.colors.forEach(color => {
+                const btn = document.createElement('button');
+                btn.className = 'color-option';
+                btn.textContent = color;
+                btn.onclick = () => selectColor(color, btn);
+                colorOptions.appendChild(btn);
+            });
+
+            // Features
+            const featuresList = document.getElementById('productFeatures');
+            featuresList.innerHTML = '';
+            currentProduct.features.forEach(feature => {
+                const li = document.createElement('li');
+                li.textContent = feature;
+                featuresList.appendChild(li);
+            });
+
+            await renderRelatedProducts(currentProduct.id, currentProduct.category);
+        }
+
+        function selectSize(size, element) {
+            selectedSize = size;
+            document.querySelectorAll('.size-option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function selectColor(color, element) {
+            selectedColor = color;
+            document.querySelectorAll('.color-option').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            element.classList.add('selected');
+        }
+
+        function increaseQuantity() {
+            const input = document.getElementById('quantity');
+            const current = parseInt(input.value);
+            if (current < 10) {
+                input.value = current + 1;
+            }
+        }
+
+        function decreaseQuantity() {
+            const input = document.getElementById('quantity');
+            const current = parseInt(input.value);
+            if (current > 1) {
+                input.value = current - 1;
+            }
+        }
+
+        function addCurrentProductToCart() {
+            if (!selectedSize) {
+                alert('Please select a size');
+                return;
+            }
+            if (!selectedColor) {
+                alert('Please select a color');
+                return;
+            }
+            
+            const quantity = parseInt(document.getElementById('quantity').value);
+            
+            addToCart({
+                id: currentProduct.id,
+                name: currentProduct.name,
+                price: currentProduct.price,
+                image: currentProduct.image,
+                selectedSize: selectedSize,
+                selectedColor: selectedColor,
+                quantity: quantity,
+                category: currentProduct.category
+            });
+        }
+
+        // Load product on page load
+        document.addEventListener('DOMContentLoaded', loadProduct);
+
+        // Thumbnail click handlers
+        document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
+            thumb.addEventListener('click', () => {
+                document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                thumb.classList.add('active');
+                document.getElementById('mainImage').textContent = `View ${index + 1}`;
+            });
+        });
+    
+        // Wishlist functionality for product detail page
+        function toggleProductWishlist() {
+            if (currentProduct && currentProduct.id) {
+                toggleWishlist(currentProduct.id);
+                updateProductWishlistButton();
+            }
+        }
+
+        function updateProductWishlistButton() {
+            if (!currentProduct || !currentProduct.id) return;
+            
+            const btn = document.getElementById('wishlistBtn');
+            const icon = document.getElementById('wishlistIcon');
+            const text = document.getElementById('wishlistText');
+            
+            if (btn && isInWishlist(currentProduct.id)) {
+                icon.textContent = '❤️';
+                text.textContent = 'In Wishlist';
+                btn.classList.add('active');
+            } else if (btn) {
+                icon.textContent = '🤍';
+                text.textContent = 'Add to Wishlist';
+                btn.classList.remove('active');
+            }
+        }
+
+
+        // Sample Reviews Data
+        const sampleReviews = [
+            {
+                id: 1,
+                name: "Sarah M.",
+                rating: 5,
+                date: "2 weeks ago",
+                verified: true,
+                text: "Absolutely love this! The quality is outstanding and the fit is perfect. Highly recommend!",
+                helpful: 24
+            },
+            {
+                id: 2,
+                name: "Jessica L.",
+                rating: 5,
+                date: "3 weeks ago",
+                verified: true,
+                text: "Best purchase I've made this year. The fabric feels luxurious and the design is stunning.",
+                helpful: 18
+            },
+            {
+                id: 3,
+                name: "Emily R.",
+                rating: 4,
+                date: "1 month ago",
+                verified: true,
+                text: "Great product overall. Fits true to size and looks exactly like the pictures.",
+                helpful: 12
+            },
+            {
+                id: 4,
+                name: "Amanda K.",
+                rating: 5,
+                date: "1 month ago",
+                verified: true,
+                text: "Exceeded my expectations! The attention to detail is incredible.",
+                helpful: 15
+            },
+            {
+                id: 5,
+                name: "Rachel B.",
+                rating: 4,
+                date: "2 months ago",
+                verified: false,
+                text: "Very nice quality. Shipping was fast and packaging was beautiful.",
+                helpful: 8
+            }
+        ];
+
+        // Load reviews
+        function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            if (!reviewsList) return;
+
+            reviewsList.innerHTML = sampleReviews.map(review => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="reviewer-name">${review.name}</div>
+                            <div class="review-date">${review.date}</div>
+                        </div>
+                        ${review.verified ? '<span class="verified-badge">✓ Verified Purchase</span>' : ''}
+                    </div>
+                    <div class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
+                    <div class="review-text">${review.text}</div>
+                    <div class="review-helpful">
+                        <span>Was this helpful?</span>
+                        <button onclick="alert('Thank you for your feedback!')">👍 ${review.helpful}</button>
+                        <button onclick="alert('Thank you for your feedback!')">👎</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Load reviews when page loads
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                setTimeout(loadReviews, 100);
+            });
+        } else {
+            setTimeout(loadReviews, 100);
+        }
+
+    </script>
+</body>
+</html>    <style>
+        .main-image {
+            display: block !important;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            max-width: 900px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .reviews-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border-subtle);
+        }
+
+        .rating-summary {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rating-number {
+            font-size: 3rem;
+            font-weight: 300;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .rating-stars {
+            font-size: 1.5rem;
+            color: #f9a825;
+        }
+
+        .review-card {
+            background: white;
+            border: 1px solid var(--border-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .review-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .verified-badge {
+            background: #2d7a2d;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .review-stars {
+            color: #f9a825;
+            margin-bottom: 0.5rem;
+        }
+
+        .review-text {
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .review-helpful {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .review-helpful button {
+            background: none;
+            border: 1px solid var(--border-subtle);
+            padding: 0.4rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .review-helpful button:hover {
+            background: var(--accent-cream);
+        }
+    </style>

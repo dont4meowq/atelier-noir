@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .about-hero {
+            padding: 6rem 3rem;
+            text-align: center;
+            background: var(--accent-cream);
+        }
+
+        .about-hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .about-content {
+            max-width: 1200px;
+            margin: 6rem auto;
+            padding: 0 3rem;
+        }
+
+        .about-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            margin-bottom: 6rem;
+            align-items: center;
+        }
+
+        .about-section:nth-child(even) {
+            direction: rtl;
+        }
+
+        .about-section:nth-child(even) > * {
+            direction: ltr;
+        }
+
+        .about-text h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text p {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .about-image {
+            width: 100%;
+            aspect-ratio: 4/5;
+            background: var(--accent-cream);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin: 6rem auto;
+            max-width: 1200px;
+            padding: 0 3rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .value-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .value-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .value-card p {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .about-section {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .about-section:nth-child(even) {
+                direction: ltr;
+            }
+
+            .values-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html" class="active">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero" style="margin-top: 80px;">
+        <h1>About Atelier Noir</h1>
+        <p>We believe in creating timeless pieces that transcend seasonal trends. Each garment is a testament to our commitment to exceptional craftsmanship, sustainable practices, and contemporary elegance.</p>
+    </section>
+
+    <!-- About Content -->
+    <div class="about-content">
+        <div class="about-section fade-in-on-scroll">
+            <div class="about-text">
+                <h2>Our Story</h2>
+                <p>Founded in 2020, Atelier Noir emerged from a passion for creating fashion that combines timeless elegance with modern sensibility. We started with a simple vision: to craft pieces that women would cherish for years to come.</p>
+                <p>Today, we're proud to be at the forefront of contemporary luxury fashion, working with master artisans and using only the finest materials sourced from around the world.</p>
+            </div>
+            <div class="about-image" style="background-image: url('https://images.unsplash.com/photo-1445205170230-053b83016050?w=1200&q=90'); background-size: cover; background-position: center; border-radius: 12px;"></div>
+        </div>
+
+        <div class="about-section fade-in-on-scroll">
+            <div class="about-text">
+                <h2>Craftsmanship</h2>
+                <p>Every piece in our collection is meticulously crafted by skilled artisans who bring decades of experience to their work. We believe in the power of human touch and the beauty of imperfection.</p>
+                <p>From the initial sketch to the final stitch, each garment undergoes rigorous quality control to ensure it meets our exacting standards.</p>
+            </div>
+            <div class="about-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1200&q=90'); background-size: cover; background-position: center; border-radius: 12px;"></div>
+        </div>
+
+        <div class="about-section fade-in-on-scroll">
+            <div class="about-text">
+                <h2>Sustainability</h2>
+                <p>We're committed to creating fashion that doesn't cost the earth. Our sustainable practices include using ethically sourced materials, minimizing waste, and ensuring fair labor practices throughout our supply chain.</p>
+                <p>We believe that luxury and sustainability can coexist, and we're constantly innovating to reduce our environmental footprint.</p>
+            </div>
+            <div class="about-image" style="background-image: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=1200&q=90'); background-size: cover; background-position: center; border-radius: 12px;"></div>
+        </div>
+    </div>
+
+    <!-- Values -->
+    <section style="background: var(--accent-cream); padding: 6rem 0;">
+        <div class="section-header">
+            <p class="section-label">What We Stand For</p>
+            <h2 class="section-title">Our Values</h2>
+        </div>
+
+        <div class="values-grid">
+            <div class="value-card fade-in-on-scroll">
+                <div class="value-icon">✨</div>
+                <h3>Quality First</h3>
+                <p>We never compromise on quality. Every piece is made to last, using only the finest materials and craftsmanship.</p>
+            </div>
+
+            <div class="value-card fade-in-on-scroll">
+                <div class="value-icon">🌍</div>
+                <h3>Sustainability</h3>
+                <p>We're committed to reducing our environmental impact through ethical sourcing and responsible production.</p>
+            </div>
+
+            <div class="value-card fade-in-on-scroll">
+                <div class="value-icon">💎</div>
+                <h3>Timeless Design</h3>
+                <p>Our designs transcend trends, creating pieces that remain elegant and relevant season after season.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Join Our Circle</h2>
+            <p>Subscribe to receive exclusive offers, early access to new collections, and style inspiration.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
+</body>
+</html>

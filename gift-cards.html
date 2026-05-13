@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gift Cards - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .gift-hero {
+            padding: 6rem 3rem;
+            text-align: center;
+            background: var(--accent-cream);
+        }
+
+        .gift-hero h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4.5rem;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
+        }
+
+        .gift-hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .gift-content {
+            max-width: 900px;
+            margin: 6rem auto;
+            padding: 0 3rem;
+        }
+
+        .gift-card-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .gift-card-option {
+            border: 2px solid var(--border-subtle);
+            padding: 3rem 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 12px;
+        }
+
+        .gift-card-option:hover,
+        .gift-card-option.selected {
+            border-color: var(--primary-dark);
+            background: var(--accent-cream);
+        }
+
+        .gift-amount {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .gift-form {
+            background: var(--accent-cream);
+            padding: 3rem;
+            border-radius: 12px;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--border-subtle);
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            border-radius: 8px;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .gift-features {
+            margin: 6rem 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .gift-feature h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .gift-feature p {
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="gift-hero">
+        <h1>Gift Cards</h1>
+        <p>Share the gift of timeless elegance. Perfect for any occasion, our gift cards let your loved ones choose exactly what they desire.</p>
+    </section>
+
+    <!-- Gift Card Content -->
+    <div class="gift-content">
+        <h2 style="text-align: center; margin-bottom: 3rem; font-size: 1.5rem; letter-spacing: 2px;">SELECT AN AMOUNT</h2>
+        
+        <div class="gift-card-options">
+            <div class="gift-card-option" onclick="selectAmount(100)">
+                <div class="gift-amount">$100</div>
+                <p>Perfect starter gift</p>
+            </div>
+            <div class="gift-card-option" onclick="selectAmount(250)">
+                <div class="gift-amount">$250</div>
+                <p>Most popular</p>
+            </div>
+            <div class="gift-card-option" onclick="selectAmount(500)">
+                <div class="gift-amount">$500</div>
+                <p>Ultimate luxury</p>
+            </div>
+        </div>
+
+        <form class="gift-form" onsubmit="event.preventDefault(); alert('Gift card purchase feature coming soon!');">
+            <h3 style="margin-bottom: 2rem;">Gift Card Details</h3>
+            
+            <div class="form-group">
+                <label>Recipient's Name</label>
+                <input type="text" required placeholder="Enter recipient's name">
+            </div>
+
+            <div class="form-group">
+                <label>Recipient's Email</label>
+                <input type="email" required placeholder="Enter recipient's email">
+            </div>
+
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" required placeholder="Enter your name">
+            </div>
+
+            <div class="form-group">
+                <label>Personal Message (Optional)</label>
+                <textarea placeholder="Add a personal message to make this gift extra special..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Delivery Date</label>
+                <input type="date" required>
+            </div>
+
+            <button type="submit" class="btn-primary" style="width: 100%; padding: 1.2rem;">Add to Cart</button>
+        </form>
+    </div>
+
+    <!-- Features -->
+    <div class="gift-content">
+        <div class="gift-features">
+            <div class="gift-feature">
+                <h3>Instant Delivery</h3>
+                <p>Digital gift cards delivered immediately via email, or schedule for a special date.</p>
+            </div>
+            <div class="gift-feature">
+                <h3>Never Expires</h3>
+                <p>Our gift cards never expire and can be used for any purchase, online or in-store.</p>
+            </div>
+            <div class="gift-feature">
+                <h3>Easy to Use</h3>
+                <p>Simply enter the gift card code at checkout to apply the balance to any order.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        function selectAmount(amount) {
+            document.querySelectorAll('.gift-card-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+        }
+    </script>
+</body>
+</html>

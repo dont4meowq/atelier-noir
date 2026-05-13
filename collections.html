@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html" class="active">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / Collections
+        </div>
+        <h1>Our Collections</h1>
+        <p>Curated selections of timeless elegance</p>
+    </div>
+
+    <!-- Collections Grid -->
+    <section class="content-container">
+        <div class="collections-grid" style="margin-bottom: 0;">
+            <a href="collection-detail.html?collection=signature" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Signature</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+            
+            <a href="collection-detail.html?collection=evening" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=1200&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Evening</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+            
+            <a href="collection-detail.html?collection=casual" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1200&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Casual</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+            
+            <a href="collection-detail.html?collection=accessories" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=1200&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Accessories</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+            
+            <a href="collection-detail.html?collection=essentials" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?w=1920&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Essentials</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+            
+            <a href="collection-detail.html?collection=outerwear" class="collection-card fade-in-on-scroll">
+                <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=1200&q=90'); background-size: cover; background-position: center;"></div>
+                <div class="collection-overlay">
+                    <h3 class="collection-name">Outerwear</h3>
+                    <p class="collection-count">10 Pieces</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Newsletter -->
+    <section class="newsletter">
+        <div class="newsletter-content">
+            <h2>Join Our Circle</h2>
+            <p>Subscribe to receive exclusive offers, early access to new collections, and style inspiration.</p>
+            <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
+                <input type="email" class="newsletter-input" placeholder="Your email address" required>
+                <button type="submit" class="newsletter-button">Subscribe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
+</body>
+</html>

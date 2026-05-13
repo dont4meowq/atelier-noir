@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - ATELIER NOIR</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@200;300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .cart-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 4rem 3rem;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 4rem;
+        }
+
+        .cart-items {
+            /* Left side - cart items */
+        }
+
+        .cart-item {
+            display: grid;
+            grid-template-columns: 120px 1fr auto;
+            gap: 2rem;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .cart-item-image {
+            width: 120px;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .cart-item-details h3 {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .cart-item-details .item-category {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .item-options {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .quantity-controls-cart {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .quantity-controls-cart button {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--border-subtle);
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .quantity-controls-cart button:hover {
+            background: var(--primary-dark);
+            color: var(--primary-light);
+        }
+
+        .quantity-controls-cart input {
+            width: 50px;
+            text-align: center;
+            padding: 0.4rem;
+            border: 1px solid var(--border-subtle);
+            font-size: 0.9rem;
+        }
+
+        .remove-btn {
+            background: white;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: 400;
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 50%;
+            margin-left: 1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .remove-btn:hover {
+            background: #c41e3a;
+            color: white;
+            border-color: #c41e3a;
+            transform: scale(1.1);
+        }
+
+        .cart-item-price {
+            text-align: right;
+        }
+
+        .cart-item-price .price {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .cart-summary {
+            background: var(--accent-cream);
+            padding: 2rem;
+            height: fit-content;
+            position: sticky;
+            top: 120px;
+        }
+
+        .cart-summary h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .summary-row.total {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: var(--primary-dark);
+            color: var(--primary-light);
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 2rem;
+            transition: all 0.3s;
+        }
+
+        .checkout-btn:hover {
+            background: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        .continue-shopping {
+            display: block;
+            text-align: center;
+            margin-top: 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .continue-shopping:hover {
+            color: var(--primary-dark);
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 0;
+        }
+
+        .empty-cart h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .empty-cart p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .cart-container {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-item {
+                grid-template-columns: 80px 1fr;
+                gap: 1rem;
+            }
+
+            .cart-item-image {
+                width: 80px;
+                height: 107px;
+                object-fit: cover;
+            }
+
+            .cart-item-price {
+                grid-column: 2;
+                text-align: left;
+                margin-top: 1rem;
+            }
+
+            .cart-summary {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">ATELIER NOIR</a>
+            <ul class="nav-links">
+                <li><a href="collections.html">Collections</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-icons">
+                <a href="search.html" class="nav-icon">🔍</a>
+                <a href="account.html" class="nav-icon">👤</a>
+                <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="breadcrumb">
+            <a href="index.html">Home</a> / Shopping Cart
+        </div>
+        <h1>Shopping Cart</h1>
+    </div>
+
+    <!-- Cart Content -->
+    <div class="cart-container" id="cartContainer">
+        <!-- Will be populated by JavaScript -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <div class="footer-brand">ATELIER NOIR</div>
+                <p class="footer-description">
+                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h4>Shop</h4>
+                <ul class="footer-links">
+                    <li><a href="new-arrivals.html">New Arrivals</a></li>
+                    <li><a href="collections.html">Collections</a></li>
+                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul class="footer-links">
+                    <li><a href="contact.html">Contact Us</a></li>
+                    <li><a href="size-guide.html">Size Guide</a></li>
+                    <li><a href="shipping.html">Shipping</a></li>
+                    <li><a href="returns.html">Returns</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul class="footer-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="sustainability.html">Sustainability</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                    <li><a href="privacy.html">Privacy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Atelier Noir. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#">Instagram</a>
+                <a href="#">Facebook</a>
+                <a href="#">Pinterest</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
+    <script>
+        function renderCart() {
+            const container = document.getElementById('cartContainer');
+            
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-cart" style="grid-column: 1/-1;">
+                        <h2>Your Cart is Empty</h2>
+                        <p>Add some items to your cart to get started.</p>
+                        <a href="collections.html" class="btn-primary">Continue Shopping</a>
+                    </div>
+                `;
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 500 ? 0 : 25;
+            const tax = subtotal * 0.1; // 10% tax
+            const total = subtotal + shipping + tax;
+
+            container.innerHTML = `
+                <div class="cart-items">
+                    ${cart.map(item => `
+                        <div class="cart-item">
+                            <img src="${item.image || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=90'}" alt="${item.name}" class="cart-item-image" style="width: 120px; height: 160px; object-fit: cover;">
+                            <div class="cart-item-details">
+                                <h3>${item.name}</h3>
+                                <p class="item-category">${item.category}</p>
+                                ${item.selectedSize ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Size: ${item.selectedSize}</div>` : ''}
+                                ${item.selectedColor ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Color: ${item.selectedColor}</div>` : ''}
+                                <div class="quantity-controls-cart">
+                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">-</button>
+                                    <input type="number" value="${item.quantity}" min="1" max="10" 
+                                           onchange="updateCartItemQuantity(${item.id}, this.value, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">
+                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">+</button>
+                                    <button class="remove-btn" onclick="removeFromCart(${item.id}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})" title="Remove item">×</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-price">
+                                <p class="price">$${(item.price * item.quantity).toFixed(2)}</p>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+                <div class="cart-summary">
+                    <h2>Order Summary</h2>
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span>$${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span>$${tax.toFixed(2)}</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total</span>
+                        <span>$${total.toFixed(2)}</span>
+                    </div>
+                    ${subtotal < 500 ? '<p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 1rem;">Free shipping on orders over $500</p>' : ''}
+                    <button class="checkout-btn" onclick="proceedToCheckout()">Proceed to Checkout</button>
+                    <a href="collections.html" class="continue-shopping">Continue Shopping</a>
+                </div>
+            `;
+        }
+
+        function proceedToCheckout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty');
+                return;
+            }
+            window.location.href = 'checkout.html';
+        }
+
+        // Render cart on page load
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+</html>
