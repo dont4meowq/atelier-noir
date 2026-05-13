@@ -652,6 +652,9 @@
             // Stock status
             const btn = document.getElementById('addToCartBtn');
             const stockInfo = document.getElementById('stockInfo');
+            // Обмежити max кількість до stock
+            const qInput = document.getElementById('quantity');
+            if (qInput) qInput.max = currentProduct.stock;
             if (currentProduct.stock === 0) {
                 btn.textContent = 'Out of Stock';
                 btn.classList.add('out-of-stock-btn');
@@ -686,8 +689,12 @@
         function increaseQuantity() {
             const input = document.getElementById('quantity');
             const current = parseInt(input.value);
-            if (current < 10) {
+            const maxStock = currentProduct ? currentProduct.stock : 10;
+            const maxAllowed = Math.min(10, maxStock);
+            if (current < maxAllowed) {
                 input.value = current + 1;
+            } else {
+                showNotification(`Only ${maxStock} available in stock`);
             }
         }
 
@@ -701,15 +708,21 @@
 
         function addCurrentProductToCart() {
             if (!selectedSize) {
-                alert('Please select a size');
+                showNotification('Please select a size');
                 return;
             }
             if (!selectedColor) {
-                alert('Please select a color');
+                showNotification('Please select a color');
                 return;
             }
-            
+
             const quantity = parseInt(document.getElementById('quantity').value);
+
+            if (quantity > currentProduct.stock) {
+                showNotification(`Only ${currentProduct.stock} available in stock`);
+                document.getElementById('quantity').value = currentProduct.stock;
+                return;
+            }
             
             addToCart({
                 id: currentProduct.id,

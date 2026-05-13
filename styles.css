@@ -961,37 +961,107 @@ footer {
 
 /* Stock Status */
 .out-of-stock-card {
-    opacity: 0.85;
+    opacity: 0.8;
 }
 
 .out-of-stock-card:hover {
     transform: none !important;
+    box-shadow: none !important;
 }
 
+/* Плашка "Only X left" */
 .stock-warning {
     position: absolute;
-    bottom: 10px;
-    left: 10px;
-    background: #c41e3a;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #c41e3a 100%);
     color: white;
-    padding: 0.2rem 0.6rem;
-    font-size: 0.7rem;
+    padding: 0.4rem 0.75rem;
+    font-size: 0.65rem;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
 }
 
+.stock-warning::before {
+    content: '●';
+    font-size: 0.5rem;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Кнопка Out of Stock */
 .out-of-stock-btn {
-    background: #888 !important;
+    background: #e8e3d8 !important;
     cursor: not-allowed !important;
-    color: white !important;
+    color: #999 !important;
+    border: 1px solid #ccc !important;
+    letter-spacing: 2px;
+    position: relative;
 }
 
+.out-of-stock-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: #bbb;
+}
+
+/* Stock info під кнопкою */
 .stock-info {
-    font-size: 0.85rem;
-    margin-top: 0.5rem;
+    font-size: 0.78rem;
+    margin-top: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.5px;
 }
 
-.stock-info.low { color: #c41e3a; font-weight: 600; }
-.stock-info.available { color: #2d6a4f; }
-.stock-info.unavailable { color: #888; }
+.stock-info::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.stock-info.available {
+    color: #2d6a4f;
+}
+
+.stock-info.available::before {
+    background: #2d6a4f;
+    box-shadow: 0 0 4px rgba(45,106,79,0.5);
+}
+
+.stock-info.low {
+    color: #c41e3a;
+    font-weight: 600;
+}
+
+.stock-info.low::before {
+    background: #c41e3a;
+    animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+.stock-info.unavailable {
+    color: #999;
+}
+
+.stock-info.unavailable::before {
+    background: #ccc;
+}
