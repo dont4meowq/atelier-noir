@@ -697,6 +697,17 @@
                 body: JSON.stringify(orderPayload)
             });
 
+            if (orderRes.status === 401 || orderRes.status === 403) {
+                showNotification('Session expired. Please sign in again or continue as guest.');
+                throw new Error('Authentication failed: ' + orderRes.status);
+            }
+            if (!orderRes.ok) {
+                let errText = '';
+                try { errText = (await orderRes.json()).message || ''; } catch {}
+                showNotification('Failed to create order' + (errText ? ': ' + errText : ''));
+                throw new Error('Order creation failed: ' + orderRes.status + ' ' + errText);
+            }
+
             const orderData = await orderRes.json();
             if (!orderData || !orderData[0] || !orderData[0].id) {
                 // Якщо RLS не повернув запис — отримуємо id окремим запитом
@@ -704,6 +715,10 @@
                     `${SUPABASE_URL}/rest/v1/orders?order_number=eq.${orderNumber}&select=id&limit=1`,
                     { headers: { ...authHeaders() } }
                 );
+                if (!lastOrderRes.ok) {
+                    showNotification('Failed to create order');
+                    throw new Error('Failed to create order: ' + lastOrderRes.status);
+                }
                 const lastOrder = await lastOrderRes.json();
                 if (!lastOrder || !lastOrder[0]) throw new Error('Failed to create order');
                 var orderId = lastOrder[0].id;
@@ -776,24 +791,32 @@
             loadCheckoutItems();
             updateNavAuth();
 
-            // Якщо залогінений — підставити дані профілю
+            // Перевіряємо валідність токена — якщо прострочений, getSession його очистить
             const token = getAccessToken();
             if (token) {
-                const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&limit=1`, {
-                    headers: authHeaders()
-                });
-                const data = await res.json();
-                const profile = data[0];
-                if (profile) {
-                    if (profile.email) document.getElementById('email').value = profile.email;
-                    if (profile.first_name) document.getElementById('firstName').value = profile.first_name;
-                    if (profile.last_name) document.getElementById('lastName').value = profile.last_name;
-                    if (profile.address) document.getElementById('address').value = profile.address;
-                    if (profile.city) document.getElementById('city').value = profile.city;
-                    if (profile.postal) document.getElementById('postal').value = profile.postal;
-                    if (profile.country) document.getElementById('country').value = profile.country;
+                const session = await getSession();
+                if (session) {
+                    // Сесія валідна — підставити дані профілю
+                    const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&limit=1`, {
+                        headers: authHeaders()
+                    });
+                    if (res.ok) {
+                        const data = await res.json();
+                        const profile = data[0];
+                        if (profile) {
+                            if (profile.email) document.getElementById('email').value = profile.email;
+                            if (profile.first_name) document.getElementById('firstName').value = profile.first_name;
+                            if (profile.last_name) document.getElementById('lastName').value = profile.last_name;
+                            if (profile.address) document.getElementById('address').value = profile.address;
+                            if (profile.city) document.getElementById('city').value = profile.city;
+                            if (profile.postal) document.getElementById('postal').value = profile.postal;
+                            if (profile.country) document.getElementById('country').value = profile.country;
+                        }
+                    }
                 }
+                // Якщо session === null — getSession вже очистив токен, далі checkout йде як гостьовий
             }
+            updateNavAuth();
         });
     </script>
 </body>

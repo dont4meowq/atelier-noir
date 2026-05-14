@@ -102,6 +102,7 @@ const TRANSLATIONS = {
     "Please select a size": "Будь ласка, оберіть розмір",
     "Please select a color": "Будь ласка, оберіть колір",
     "Item added to cart!": "Товар додано в кошик!",
+    "No more items available in stock": "Більше немає в наявності",
     "Added to wishlist": "Додано до бажаного",
     "Removed from wishlist": "Видалено з бажаного",
     "Product": "Товар",
@@ -541,6 +542,7 @@ const TRANSLATIONS = {
     "Invalid email or password": "Невірний email або пароль",
     "Registration failed": "Помилка реєстрації",
     "Failed to create order": "Не вдалося створити замовлення",
+    "Session expired. Please sign in again or continue as guest.": "Сесія прострочена. Увійдіть знову або продовжте як гість.",
     "Error:": "Помилка:",
     "Sign Up": "Зареєструватися",
     "Order": "Замовлення",
@@ -732,10 +734,19 @@ const SB_HEADERS = {
 // ==================== AUTH ====================
 
 async function getSession() {
+    const token = getAccessToken();
+    if (!token) return null;
     const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-        headers: { ...SB_HEADERS, 'Authorization': `Bearer ${getAccessToken()}` }
+        headers: { ...SB_HEADERS, 'Authorization': `Bearer ${token}` }
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+        // 401/403 → токен невалідний/прострочений — очищуємо
+        if (res.status === 401 || res.status === 403) {
+            const key = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
+            localStorage.removeItem(key);
+        }
+        return null;
+    }
     return res.json();
 }
 
@@ -874,6 +885,29 @@ function addToCart(product) {
     const productId = product.id;
     const size = product.selectedSize || null;
     const color = product.selectedColor || null;
+    const qtyToAdd = product.quantity || 1;
+
+    // Скільки цього товару (з усіма варіантами) вже в кошику
+    const totalInCart = cart
+        .filter(i => i.id === productId)
+        .reduce((s, i) => s + i.quantity, 0);
+
+    // Визначаємо stock: спочатку з product, потім із збереженого item
+    let stock = typeof product.stock === 'number' ? product.stock : undefined;
+    if (stock === undefined) {
+        const stored = cart.find(i => i.id === productId);
+        if (stored && typeof stored.stock === 'number') stock = stored.stock;
+    }
+
+    if (typeof stock === 'number' && (totalInCart + qtyToAdd) > stock) {
+        const remaining = Math.max(0, stock - totalInCart);
+        if (remaining === 0) {
+            showNotification('No more items available in stock');
+        } else {
+            showNotification(`Only ${remaining} more available in stock`);
+        }
+        return false;
+    }
 
     const existing = cart.find(item =>
         item.id === productId &&
@@ -882,7 +916,8 @@ function addToCart(product) {
     );
 
     if (existing) {
-        existing.quantity += product.quantity || 1;
+        existing.quantity += qtyToAdd;
+        if (typeof stock === 'number') existing.stock = stock;
     } else {
         const item = {
             id: productId,
@@ -890,16 +925,18 @@ function addToCart(product) {
             price: product.price,
             image: product.image,
             category: product.category,
-            quantity: product.quantity || 1
+            quantity: qtyToAdd
         };
         if (size) item.selectedSize = size;
         if (color) item.selectedColor = color;
+        if (typeof stock === 'number') item.stock = stock;
         cart.push(item);
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCount();
     showNotification('Item added to cart!');
+    return true;
 }
 
 function removeFromCart(productId, size, color) {
@@ -927,15 +964,33 @@ function updateCartItemQuantity(productId, quantity, size, color) {
         (i.selectedColor || null) === nColor
     );
 
-    if (item) {
-        item.quantity = parseInt(quantity);
-        if (item.quantity <= 0) {
-            removeFromCart(productId, size, color);
-        } else {
+    if (!item) return;
+
+    const newQty = parseInt(quantity);
+    if (isNaN(newQty)) return;
+    if (newQty <= 0) {
+        removeFromCart(productId, size, color);
+        return;
+    }
+
+    // Перевірка stock: сума інших варіантів + новий qty не може перевищувати stock
+    if (typeof item.stock === 'number') {
+        const otherVariants = cart
+            .filter(i => i.id === productId && i !== item)
+            .reduce((s, i) => s + i.quantity, 0);
+        if (otherVariants + newQty > item.stock) {
+            const maxAllowed = Math.max(1, item.stock - otherVariants);
+            showNotification(`Only ${item.stock} available in stock`);
+            item.quantity = maxAllowed;
             localStorage.setItem('cart', JSON.stringify(cart));
             if (typeof renderCart === 'function') renderCart();
+            return;
         }
     }
+
+    item.quantity = newQty;
+    localStorage.setItem('cart', JSON.stringify(cart));
+    if (typeof renderCart === 'function') renderCart();
 }
 
 // ==================== WISHLIST ====================
@@ -977,6 +1032,7 @@ function showNotification(message) {
             if ((m = message.match(/^Only (\d+) left$/))) message = `Залишилось ${m[1]}`;
             else if ((m = message.match(/^Only (\d+) left in stock$/))) message = `Залишилось ${m[1]} в наявності`;
             else if ((m = message.match(/^Only (\d+) available in stock$/))) message = `Доступно лише ${m[1]} в наявності`;
+            else if ((m = message.match(/^Only (\d+) more available in stock$/))) message = `Доступно ще ${m[1]} в наявності`;
             else if ((m = message.match(/^Status updated to (.+)$/))) {
                 const statusMap = { processing: 'обробляється', shipped: 'відправлено', delivered: 'доставлено', cancelled: 'скасовано' };
                 message = `Статус змінено на ${statusMap[m[1]] || m[1]}`;
