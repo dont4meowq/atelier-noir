@@ -504,21 +504,15 @@
         <div class="reviews-header">
             <div>
                 <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem;">Customer Reviews</h2>
-                <div class="rating-summary">
-                    <span class="rating-number">4.8</span>
-                    <div>
-                        <div class="rating-stars">★★★★★</div>
-                        <div style="font-size: 0.9rem; color: var(--text-muted);">
-                            Based on 127 reviews
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
         <!-- Reviews List -->
         <div id="reviewsList">
-            <!-- Reviews will be loaded by JavaScript -->
+            <div style="text-align:center; padding: 3rem 1rem; color: var(--text-muted);">
+                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No reviews yet</p>
+                <p style="font-size: 0.9rem;">Be the first to share your experience.</p>
+            </div>
         </div>
     </section>
 
@@ -584,7 +578,21 @@
         async function loadProduct() {
             const productId = parseInt(getQueryParam('id') || '1');
             currentProduct = await fetchProductById(productId);
-            if (!currentProduct) return;
+            if (!currentProduct) {
+                const detail = document.querySelector('.product-detail');
+                if (detail) {
+                    detail.innerHTML = `
+                        <div style="grid-column: 1 / -1; text-align: center; padding: 5rem 2rem;">
+                            <h1 style="font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; margin-bottom: 1rem;">Product Not Found</h1>
+                            <p style="color: var(--text-muted); margin-bottom: 2rem;">The product you're looking for doesn't exist or has been removed.</p>
+                            <a href="collections.html" class="btn-primary">Browse Collections</a>
+                        </div>
+                    `;
+                }
+                // Скрываем секции отзывов и related если товар не найден
+                document.querySelectorAll('.reviews-section, .featured').forEach(s => s.style.display = 'none');
+                return;
+            }
 
             document.getElementById('breadcrumb-product').textContent = currentProduct.name;
             document.getElementById('productName').textContent = currentProduct.name;
@@ -775,89 +783,6 @@
             }
         }
 
-
-        // Sample Reviews Data
-        const sampleReviews = [
-            {
-                id: 1,
-                name: "Sarah M.",
-                rating: 5,
-                date: "2 weeks ago",
-                verified: true,
-                text: "Absolutely love this! The quality is outstanding and the fit is perfect. Highly recommend!",
-                helpful: 24
-            },
-            {
-                id: 2,
-                name: "Jessica L.",
-                rating: 5,
-                date: "3 weeks ago",
-                verified: true,
-                text: "Best purchase I've made this year. The fabric feels luxurious and the design is stunning.",
-                helpful: 18
-            },
-            {
-                id: 3,
-                name: "Emily R.",
-                rating: 4,
-                date: "1 month ago",
-                verified: true,
-                text: "Great product overall. Fits true to size and looks exactly like the pictures.",
-                helpful: 12
-            },
-            {
-                id: 4,
-                name: "Amanda K.",
-                rating: 5,
-                date: "1 month ago",
-                verified: true,
-                text: "Exceeded my expectations! The attention to detail is incredible.",
-                helpful: 15
-            },
-            {
-                id: 5,
-                name: "Rachel B.",
-                rating: 4,
-                date: "2 months ago",
-                verified: false,
-                text: "Very nice quality. Shipping was fast and packaging was beautiful.",
-                helpful: 8
-            }
-        ];
-
-        // Load reviews
-        function loadReviews() {
-            const reviewsList = document.getElementById('reviewsList');
-            if (!reviewsList) return;
-
-            reviewsList.innerHTML = sampleReviews.map(review => `
-                <div class="review-card">
-                    <div class="review-header">
-                        <div>
-                            <div class="reviewer-name">${review.name}</div>
-                            <div class="review-date">${review.date}</div>
-                        </div>
-                        ${review.verified ? '<span class="verified-badge">✓ Verified Purchase</span>' : ''}
-                    </div>
-                    <div class="review-stars">${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}</div>
-                    <div class="review-text">${review.text}</div>
-                    <div class="review-helpful">
-                        <span>Was this helpful?</span>
-                        <button onclick="alert('Thank you for your feedback!')">👍 ${review.helpful}</button>
-                        <button onclick="alert('Thank you for your feedback!')">👎</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Load reviews when page loads
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(loadReviews, 100);
-            });
-        } else {
-            setTimeout(loadReviews, 100);
-        }
 
     </script>
 </body>

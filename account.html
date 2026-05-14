@@ -814,7 +814,7 @@
         async function addToCartFromWishlist(productId) {
             const product = await fetchProductById(productId);
             if (product) {
-                addToCart(productId);
+                addToCart(product);
                 removeFromWishlist(productId);
             }
         }

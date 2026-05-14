@@ -92,6 +92,16 @@ const TRANSLATIONS = {
     "Related Products": "Схожі товари",
     "Customer Reviews": "Відгуки клієнтів",
     "Based on 127 reviews": "На основі 127 відгуків",
+    "No reviews yet": "Поки що немає відгуків",
+    "Be the first to share your experience.": "Будьте першим, хто поділиться враженнями.",
+    "Product Not Found": "Товар не знайдено",
+    "The product you're looking for doesn't exist or has been removed.": "Товар, який ви шукаєте, не існує або був видалений.",
+    "Invalid card number": "Невірний номер картки",
+    "Invalid expiry date": "Невірний термін дії",
+    "Card has expired": "Термін дії картки закінчився",
+    "Invalid CVV": "Невірний CVV",
+    "Remove this item from your cart?": "Видалити цей товар з кошика?",
+    "Close": "Закрити",
     "Was this helpful?": "Це було корисно?",
     "Verified Purchase": "Підтверджена покупка",
     "✓ Verified Purchase": "✓ Підтверджена покупка",
@@ -940,6 +950,8 @@ function addToCart(product) {
 }
 
 function removeFromCart(productId, size, color) {
+    if (!confirm('Remove this item from your cart?')) return;
+
     const nSize = (size && size !== 'null' && size !== 'undefined') ? size : null;
     const nColor = (color && color !== 'null' && color !== 'undefined') ? color : null;
 
@@ -1033,6 +1045,7 @@ function showNotification(message) {
             else if ((m = message.match(/^Only (\d+) left in stock$/))) message = `Залишилось ${m[1]} в наявності`;
             else if ((m = message.match(/^Only (\d+) available in stock$/))) message = `Доступно лише ${m[1]} в наявності`;
             else if ((m = message.match(/^Only (\d+) more available in stock$/))) message = `Доступно ще ${m[1]} в наявності`;
+            else if ((m = message.match(/^"(.+)" — only (\d+) left in stock, please adjust your cart$/))) message = `"${m[1]}" — залишилось ${m[2]} в наявності, скоригуйте кошик`;
             else if ((m = message.match(/^Status updated to (.+)$/))) {
                 const statusMap = { processing: 'обробляється', shipped: 'відправлено', delivered: 'доставлено', cancelled: 'скасовано' };
                 message = `Статус змінено на ${statusMap[m[1]] || m[1]}`;

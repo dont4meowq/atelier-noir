@@ -235,8 +235,17 @@
             filterProducts();
         }
 
+        // Debounce: запускає пошук через 400мс після останнього набору
+        let _searchTimer = null;
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            clearTimeout(_searchTimer);
+            _searchTimer = setTimeout(performSearch, 400);
+        });
         document.getElementById('searchInput').addEventListener('keyup', function(e) {
-            if (e.key === 'Enter') performSearch();
+            if (e.key === 'Enter') {
+                clearTimeout(_searchTimer);
+                performSearch();
+            }
         });
 
         document.querySelectorAll('.filter-btn').forEach(btn => {
