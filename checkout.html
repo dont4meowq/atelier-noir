@@ -613,15 +613,15 @@
                 `;
             });
 
-            // Calculate totals
-            const shipping = subtotal > 200 ? 0 : 25;
-            const tax = Math.round(subtotal * 0.08); // 8% tax
+            // Calculate totals (must match cart.html)
+            const shipping = subtotal > 500 ? 0 : 25;
+            const tax = subtotal * 0.1; // 10% tax
             const total = subtotal + shipping + tax;
 
-            document.getElementById('subtotal').textContent = '$' + subtotal;
-            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : '$' + shipping;
-            document.getElementById('tax').textContent = '$' + tax;
-            document.getElementById('total').textContent = '$' + total;
+            document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
+            document.getElementById('shipping').textContent = shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2);
+            document.getElementById('tax').textContent = '$' + tax.toFixed(2);
+            document.getElementById('total').textContent = '$' + total.toFixed(2);
         }
 
         function selectPayment(element) {
@@ -656,11 +656,38 @@
                 return;
             }
 
+            // Pre-check stock (best-effort race protection)
+            // Сумуємо потрібну кількість по кожному product_id (з усіх варіантів)
+            const requiredByProduct = {};
+            for (const item of cart) {
+                requiredByProduct[item.id] = (requiredByProduct[item.id] || 0) + item.quantity;
+            }
+            const productIds = Object.keys(requiredByProduct);
+            try {
+                const stockCheckRes = await fetch(
+                    `${SUPABASE_URL}/rest/v1/products?id=in.(${productIds.join(',')})&select=id,stock,name`,
+                    { headers: SB_HEADERS }
+                );
+                if (stockCheckRes.ok) {
+                    const products = await stockCheckRes.json();
+                    for (const p of products) {
+                        const need = requiredByProduct[p.id];
+                        const have = p.stock || 0;
+                        if (need > have) {
+                            showNotification(`"${p.name}" — only ${have} left in stock, please adjust your cart`);
+                            return;
+                        }
+                    }
+                }
+            } catch (e) {
+                console.warn('Stock pre-check failed, proceeding:', e);
+            }
+
             let subtotal = 0;
             cart.forEach(item => { subtotal += item.price * item.quantity; });
-            const shipping = subtotal > 200 ? 0 : 25;
-            const tax = Math.round(subtotal * 0.08);
-            const total = subtotal + shipping + tax;
+            const shipping = subtotal > 500 ? 0 : 25;
+            const tax = +(subtotal * 0.1).toFixed(2); // 10% tax, matches cart.html
+            const total = +(subtotal + shipping + tax).toFixed(2);
 
             const email = document.getElementById('email').value;
             const orderNumber = 'AN-' + Date.now().toString().slice(-6);
@@ -738,27 +765,38 @@
                 selected_color: item.selectedColor || null
             }));
 
-            await fetch(`${SUPABASE_URL}/rest/v1/order_items`, {
+            const itemsRes = await fetch(`${SUPABASE_URL}/rest/v1/order_items`, {
                 method: 'POST',
-                headers: SB_HEADERS,
+                headers: authHeaders(),
                 body: JSON.stringify(items)
             });
+            if (!itemsRes.ok) {
+                console.warn('Failed to save order items:', itemsRes.status);
+            }
 
             // 3. Зменшити кількість товарів в наявності
+            // Сумуємо по product_id (з усіма варіантами) щоб робити 1 PATCH на товар
+            const decBy = {};
             for (const item of cart) {
-                // Отримати поточний stock
+                decBy[item.id] = (decBy[item.id] || 0) + item.quantity;
+            }
+            for (const pid of Object.keys(decBy)) {
                 const stockRes = await fetch(
-                    `${SUPABASE_URL}/rest/v1/products?id=eq.${item.id}&select=stock`,
+                    `${SUPABASE_URL}/rest/v1/products?id=eq.${pid}&select=stock`,
                     { headers: SB_HEADERS }
                 );
+                if (!stockRes.ok) continue;
                 const stockData = await stockRes.json();
                 if (stockData && stockData[0]) {
-                    const newStock = Math.max(0, (stockData[0].stock || 0) - item.quantity);
-                    await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${item.id}`, {
+                    const newStock = Math.max(0, (stockData[0].stock || 0) - decBy[pid]);
+                    const patchRes = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${pid}`, {
                         method: 'PATCH',
-                        headers: { ...SB_HEADERS, 'Authorization': `Bearer ${getAccessToken() || ''}` },
+                        headers: authHeaders(),
                         body: JSON.stringify({ stock: newStock })
                     });
+                    if (!patchRes.ok) {
+                        console.warn(`Failed to decrement stock for product ${pid}:`, patchRes.status);
+                    }
                 }
             }
 

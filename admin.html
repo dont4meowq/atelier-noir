@@ -542,6 +542,14 @@
         let allProducts = [];
         let allOrders = [];
 
+        // Захист від XSS — екранує спецсимволи перед вставкою в innerHTML
+        function esc(s) {
+            if (s == null) return '';
+            return String(s).replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            })[c]);
+        }
+
         // ==================== AUTH ====================
 
         async function adminLogin() {
@@ -654,15 +662,15 @@
             }
             tbody.innerHTML = products.map(p => `
                 <tr>
-                    <td style="color:var(--text-muted);font-size:0.8rem;">${p.id}</td>
-                    <td><img src="${p.image}" alt="${p.name}" onerror="this.src='https://placehold.co/50x60/e8e3d8/6b6b6b'"></td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${esc(p.id)}</td>
+                    <td><img src="${esc(p.image)}" alt="${esc(p.name)}" onerror="this.src='https://placehold.co/50x60/e8e3d8/6b6b6b'"></td>
                     <td class="product-name-cell">
-                        ${p.name}
-                        ${p.badge ? `<span class="badge-new">${p.badge}</span>` : ''}
+                        ${esc(p.name)}
+                        ${p.badge ? `<span class="badge-new">${esc(p.badge)}</span>` : ''}
                     </td>
-                    <td><span class="category-badge">${p.category}</span></td>
-                    <td style="font-weight:600;">$${p.price}</td>
-                    <td>${p.badge || '—'}</td>
+                    <td><span class="category-badge">${esc(p.category)}</span></td>
+                    <td style="font-weight:600;">$${esc(p.price)}</td>
+                    <td>${p.badge ? esc(p.badge) : '—'}</td>
                     <td>
                         <span style="
                             color: ${p.stock === 0 ? '#c41e3a' : p.stock <= 3 ? '#d97706' : '#2d6a4f'};
@@ -674,7 +682,7 @@
                     <td>
                         <div class="action-btns">
                             <button class="btn-edit" onclick="editProduct(${p.id})">Edit</button>
-                            <button class="btn-delete" onclick="deleteProduct(${p.id}, '${p.name}')">Delete</button>
+                            <button class="btn-delete" onclick="deleteProduct(${p.id}, ${esc(JSON.stringify(p.name))})">Delete</button>
                         </div>
                     </td>
                 </tr>
@@ -801,12 +809,12 @@
             }
             tbody.innerHTML = orders.map(o => `
                 <tr>
-                    <td style="font-weight:600;">${o.order_number}</td>
-                    <td style="color:var(--text-muted);font-size:0.8rem;">${new Date(o.created_at).toLocaleDateString()}</td>
-                    <td>${o.first_name} ${o.last_name}</td>
-                    <td style="color:var(--text-muted);font-size:0.8rem;">${o.email}</td>
-                    <td style="font-weight:600;">$${o.total}</td>
-                    <td><span class="status-badge status-${o.status}">${o.status}</span></td>
+                    <td style="font-weight:600;">${esc(o.order_number)}</td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${esc(new Date(o.created_at).toLocaleDateString())}</td>
+                    <td>${esc(o.first_name)} ${esc(o.last_name)}</td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${esc(o.email)}</td>
+                    <td style="font-weight:600;">$${esc(o.total)}</td>
+                    <td><span class="status-badge status-${esc(o.status)}">${esc(o.status)}</span></td>
                     <td>
                         <select class="status-select" onchange="updateOrderStatus(${o.id}, this.value)">
                             <option value="processing" ${o.status === 'processing' ? 'selected' : ''}>Processing</option>
