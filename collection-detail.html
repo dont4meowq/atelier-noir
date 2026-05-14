@@ -160,11 +160,31 @@
             document.getElementById('collectionTitle').textContent = collection.name;
             document.getElementById('collectionDescription').textContent = collection.description;
 
-            const products = await fetchProductsByIds(collection.products);
+            let products;
+            try {
+                products = await fetchProductsByIds(collection.products);
+            } catch (err) {
+                console.error('loadCollection fetch:', err);
+                productsContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                        Failed to load products. Please try again later.
+                    </div>
+                `;
+                return;
+            }
 
             const ordered = collection.products
                 .map(id => products.find(p => p.id === id))
                 .filter(Boolean);
+
+            if (!ordered.length) {
+                productsContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+                        No products in this collection yet
+                    </div>
+                `;
+                return;
+            }
 
             productsContainer.innerHTML = ordered.map(p => `
                 <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'">

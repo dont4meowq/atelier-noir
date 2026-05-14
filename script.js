@@ -238,6 +238,12 @@ const TRANSLATIONS = {
     "Collection Not Found": "Колекцію не знайдено",
     "The collection you are looking for does not exist.": "Колекція, яку ви шукаєте, не існує.",
     "Not Found": "Не знайдено",
+    "No products available": "Товари недоступні",
+    "No new arrivals at the moment": "Поки що немає новинок",
+    "Failed to load products. Please try again later.": "Не вдалося завантажити товари. Спробуйте пізніше.",
+    "Failed to load products": "Не вдалося завантажити товари",
+    "Please try again later.": "Спробуйте пізніше.",
+    "No products in this collection yet": "У цій колекції поки немає товарів",
 
     
     "About Atelier Noir": "Про Atelier Noir",
@@ -923,7 +929,14 @@ async function searchProducts(query, category) {
 
 
 
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
+function safeParseJSON(raw, fallback) {
+    if (raw == null) return fallback;
+    try { return JSON.parse(raw) ?? fallback; }
+    catch { return fallback; }
+}
+
+let cart = safeParseJSON(localStorage.getItem('cart'), []);
+if (!Array.isArray(cart)) cart = [];
 
 function updateCartCount() {
     const total = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1046,8 +1059,13 @@ function updateCartItemQuantity(productId, quantity, size, color) {
 
 
 
+function getWishlist() {
+    const arr = safeParseJSON(localStorage.getItem('wishlist'), []);
+    return Array.isArray(arr) ? arr : [];
+}
+
 function toggleWishlist(productId) {
-    let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    let wishlist = getWishlist();
     if (wishlist.includes(productId)) {
         wishlist = wishlist.filter(id => id !== productId);
         showNotification('Removed from wishlist');
@@ -1060,7 +1078,7 @@ function toggleWishlist(productId) {
 }
 
 function isInWishlist(productId) {
-    return JSON.parse(localStorage.getItem('wishlist') || '[]').includes(productId);
+    return getWishlist().includes(productId);
 }
 
 function updateWishlistButtons() {
@@ -1158,29 +1176,64 @@ function renderProductCard(product) {
     `;
 }
 
+function renderEmptyState(container, message) {
+    container.innerHTML = `
+        <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
+            ${message}
+        </div>
+    `;
+}
+
 async function renderHomeProducts() {
     const container = document.getElementById('home-products-grid');
     if (!container) return;
-    const products = await fetchAllProducts();
-    container.innerHTML = products.slice(0, 8).map(renderProductCard).join('');
-    container.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+    try {
+        const products = await fetchAllProducts();
+        if (!products || products.length === 0) {
+            renderEmptyState(container, 'No products available');
+            return;
+        }
+        container.innerHTML = products.slice(0, 8).map(renderProductCard).join('');
+        container.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+    } catch (err) {
+        console.error('renderHomeProducts:', err);
+        renderEmptyState(container, 'Failed to load products. Please try again later.');
+    }
 }
 
 async function renderNewArrivals() {
     const container = document.getElementById('new-arrivals-grid');
     if (!container) return;
-    const products = await fetchNewArrivals();
-    container.innerHTML = products.map(renderProductCard).join('');
-    container.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+    try {
+        const products = await fetchNewArrivals();
+        if (!products || products.length === 0) {
+            renderEmptyState(container, 'No new arrivals at the moment');
+            return;
+        }
+        container.innerHTML = products.map(renderProductCard).join('');
+        container.querySelectorAll('.fade-in-on-scroll').forEach(el => observer.observe(el));
+    } catch (err) {
+        console.error('renderNewArrivals:', err);
+        renderEmptyState(container, 'Failed to load products. Please try again later.');
+    }
 }
 
 async function renderRelatedProducts(currentId, category) {
     const container = document.getElementById('related-products-grid');
     if (!container) return;
-    const all = await fetchAllProducts();
-    const related = all.filter(p => p.category === category && p.id !== currentId).slice(0, 4);
-    container.innerHTML = related.map(renderProductCard).join('');
-    container.querySelectorAll('.fade-in-on-scroll').forEach(el => el.classList.add('visible'));
+    try {
+        const all = await fetchAllProducts();
+        const related = all.filter(p => p.category === category && p.id !== currentId).slice(0, 4);
+        if (!related.length) {
+            container.innerHTML = '';
+            return;
+        }
+        container.innerHTML = related.map(renderProductCard).join('');
+        container.querySelectorAll('.fade-in-on-scroll').forEach(el => el.classList.add('visible'));
+    } catch (err) {
+        console.error('renderRelatedProducts:', err);
+        container.innerHTML = '';
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {

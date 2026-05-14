@@ -635,7 +635,7 @@
         };
 
         window.removeFromWishlist = function(productId) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            let wishlist = getWishlist();
             wishlist = wishlist.filter(id => id !== productId);
             localStorage.setItem('wishlist', JSON.stringify(wishlist));
             showNotification('Removed from wishlist');
@@ -742,7 +742,7 @@
         }
 
         async function loadWishlist() {
-            const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+            const wishlist = getWishlist();
             const grid = document.getElementById('wishlistGrid');
             const empty = document.getElementById('wishlistEmpty');
             

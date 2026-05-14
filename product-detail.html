@@ -619,7 +619,7 @@
 
             const sizeOptions = document.getElementById('sizeOptions');
             sizeOptions.innerHTML = '';
-            currentProduct.sizes.forEach(size => {
+            (currentProduct.sizes || []).forEach(size => {
                 const btn = document.createElement('button');
                 btn.className = 'size-option';
                 btn.textContent = size;
@@ -629,7 +629,7 @@
 
             const colorOptions = document.getElementById('colorOptions');
             colorOptions.innerHTML = '';
-            currentProduct.colors.forEach(color => {
+            (currentProduct.colors || []).forEach(color => {
                 const btn = document.createElement('button');
                 btn.className = 'color-option';
                 btn.textContent = color;
@@ -639,7 +639,7 @@
 
             const featuresList = document.getElementById('productFeatures');
             featuresList.innerHTML = '';
-            currentProduct.features.forEach(feature => {
+            (currentProduct.features || []).forEach(feature => {
                 const li = document.createElement('li');
                 li.textContent = feature;
                 featuresList.appendChild(li);
@@ -704,11 +704,13 @@
         }
 
         function addCurrentProductToCart() {
-            if (!selectedSize) {
+            const hasSizes = (currentProduct.sizes || []).length > 0;
+            const hasColors = (currentProduct.colors || []).length > 0;
+            if (hasSizes && !selectedSize) {
                 showNotification('Please select a size');
                 return;
             }
-            if (!selectedColor) {
+            if (hasColors && !selectedColor) {
                 showNotification('Please select a color');
                 return;
             }

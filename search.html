@@ -223,8 +223,19 @@
         }
 
         async function filterProducts() {
-            const products = await searchProducts(searchQuery, currentCategory);
-            renderSearchProducts(products);
+            try {
+                const products = await searchProducts(searchQuery, currentCategory);
+                renderSearchProducts(products);
+            } catch (err) {
+                console.error('filterProducts:', err);
+                const container = document.getElementById('searchProductsGrid');
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h3>Failed to load products</h3>
+                        <p>Please try again later.</p>
+                    </div>
+                `;
+            }
         }
 
         function performSearch() {

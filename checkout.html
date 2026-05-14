@@ -587,7 +587,7 @@
     <script>
         
         function loadCheckoutItems() {
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cart = (typeof safeParseJSON === 'function' ? safeParseJSON(localStorage.getItem('cart'), []) : []);
             const orderItemsContainer = document.getElementById('orderItems');
             
             if (cart.length === 0) {
@@ -684,7 +684,7 @@
                 }
             }
 
-            const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+            const cart = (typeof safeParseJSON === 'function' ? safeParseJSON(localStorage.getItem('cart'), []) : []);
             if (cart.length === 0) {
                 showNotification('Your cart is empty');
                 return;
