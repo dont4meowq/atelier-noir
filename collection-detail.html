@@ -142,14 +142,25 @@
         async function loadCollection() {
             const collectionId = getQueryParam('collection') || 'signature';
             const collection = collections[collectionId];
-            if (!collection) return;
+            const productsContainer = document.getElementById('collectionProducts');
+
+            if (!collection) {
+                document.getElementById('collectionName').textContent = 'Not Found';
+                document.getElementById('collectionTitle').textContent = 'Collection Not Found';
+                document.getElementById('collectionDescription').textContent = 'The collection you are looking for does not exist.';
+                productsContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 4rem 2rem;">
+                        <a href="collections.html" class="btn-primary">Browse Collections</a>
+                    </div>
+                `;
+                return;
+            }
 
             document.getElementById('collectionName').textContent = collection.name;
             document.getElementById('collectionTitle').textContent = collection.name;
             document.getElementById('collectionDescription').textContent = collection.description;
 
             const products = await fetchProductsByIds(collection.products);
-            const productsContainer = document.getElementById('collectionProducts');
 
             const ordered = collection.products
                 .map(id => products.find(p => p.id === id))

@@ -229,6 +229,15 @@ const TRANSLATIONS = {
     "Password must be at least 6 characters": "Пароль має містити щонайменше 6 символів",
     "Settings saved successfully": "Налаштування збережено",
     "Address saved successfully": "Адресу збережено",
+    "Please sign in to save settings": "Увійдіть, щоб зберегти налаштування",
+    "Please sign in to save address": "Увійдіть, щоб зберегти адресу",
+    "Session expired. Please sign in again.": "Сесія прострочена. Увійдіть знову.",
+    "Failed to save settings": "Не вдалося зберегти налаштування",
+    "Failed to save address": "Не вдалося зберегти адресу",
+    "Loading...": "Завантаження...",
+    "Collection Not Found": "Колекцію не знайдено",
+    "The collection you are looking for does not exist.": "Колекція, яку ви шукаєте, не існує.",
+    "Not Found": "Не знайдено",
 
     
     "About Atelier Noir": "Про Atelier Noir",

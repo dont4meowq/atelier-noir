@@ -581,26 +581,44 @@
 
         window.saveSettings = async function() {
             const token = getAccessToken();
-            if (!token) return;
+            if (!token) {
+                showNotification('Please sign in to save settings');
+                return;
+            }
             const fullName = document.getElementById('settingsName').value.trim();
             const [firstName, ...rest] = fullName.split(' ');
             const lastName = rest.join(' ') || '';
             const user = await getSession();
-            if (!user) return;
-            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+            if (!user) {
+                showNotification('Session expired. Please sign in again.');
+                setTimeout(() => location.reload(), 1500);
+                return;
+            }
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
                 method: 'PATCH',
                 headers: authHeaders(),
                 body: JSON.stringify({ first_name: firstName, last_name: lastName })
             });
+            if (!res.ok) {
+                showNotification('Failed to save settings');
+                return;
+            }
             showNotification('Settings saved successfully');
         };
 
         window.saveAddress = async function() {
             const token = getAccessToken();
-            if (!token) return;
+            if (!token) {
+                showNotification('Please sign in to save address');
+                return;
+            }
             const user = await getSession();
-            if (!user) return;
-            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
+            if (!user) {
+                showNotification('Session expired. Please sign in again.');
+                setTimeout(() => location.reload(), 1500);
+                return;
+            }
+            const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
                 method: 'PATCH',
                 headers: authHeaders(),
                 body: JSON.stringify({
@@ -609,6 +627,10 @@
                     postal: document.getElementById('settingsZip').value
                 })
             });
+            if (!res.ok) {
+                showNotification('Failed to save address');
+                return;
+            }
             showNotification('Address saved successfully');
         };
 

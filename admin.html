@@ -797,7 +797,7 @@
             tbody.innerHTML = orders.map(o => `
                 <tr>
                     <td style="font-weight:600;">${esc(o.order_number)}</td>
-                    <td style="color:var(--text-muted);font-size:0.8rem;">${esc(new Date(o.created_at).toLocaleDateString())}</td>
+                    <td style="color:var(--text-muted);font-size:0.8rem;">${new Date(o.created_at).toLocaleDateString()}</td>
                     <td>${esc(o.first_name)} ${esc(o.last_name)}</td>
                     <td style="color:var(--text-muted);font-size:0.8rem;">${esc(o.email)}</td>
                     <td style="font-weight:600;">$${esc(o.total)}</td>
