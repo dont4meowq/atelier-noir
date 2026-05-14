@@ -13,12 +13,21 @@
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
             <ul class="nav-links">
-                <li><a href="collections.html">Collections</a></li>
-                <li><a href="new-arrivals.html">New Arrivals</a></li>
-                <li><a href="about.html">About</a></li>
-                <li><a href="contact.html">Contact</a></li>
+                <li><a href="collections.html" data-i18n="Collections" data-i18n="Collections">Collections</a></li>
+                <li><a href="new-arrivals.html" data-i18n="New Arrivals" data-i18n="New Arrivals">New Arrivals</a></li>
+                <li><a href="about.html" data-i18n="About" data-i18n="About">About</a></li>
+                <li><a href="contact.html" data-i18n="Contact" data-i18n="Contact">Contact</a></li>
             </ul>
             <div class="nav-icons">
+                <button id="langToggleBtn" onclick="toggleLanguage()" style="
+                    background:none;border:1px solid rgba(0,0,0,0.15);
+                    padding:0.25rem 0.6rem;border-radius:3px;
+                    font-family:'Montserrat',sans-serif;font-size:0.72rem;
+                    font-weight:700;letter-spacing:1px;cursor:pointer;
+                    color:var(--text-primary);transition:all 0.25s;
+                    display:flex;align-items:center;gap:0.3rem;
+                " onmouseover="this.style.background='var(--primary-dark)';this.style.color='white';this.style.borderColor='var(--primary-dark)'"
+                   onmouseout="this.style.background='none';this.style.color='var(--text-primary)';this.style.borderColor='rgba(0,0,0,0.15)'">🇺🇦 UA</button>
                 <a href="search.html" class="nav-icon">🔍</a>
                 <a href="account.html" class="nav-icon">👤</a>
                 <a href="cart.html" class="nav-icon">🛍️ <span class="cart-count">0</span></a>
@@ -30,8 +39,8 @@
     <section class="hero">
         <div class="hero-content">
             <h1 class="hero-title">Timeless<br>Elegance<br>Redefined</h1>
-            <p class="hero-subtitle">SPRING/SUMMER 2026 COLLECTION</p>
-            <a href="collections.html" class="hero-cta">Explore Collection</a>
+            <p class="hero-subtitle"><p class="hero-subtitle" data-i18n="SPRING/SUMMER 2026 COLLECTION" data-i18n="SPRING/SUMMER 2026 COLLECTION">SPRING/SUMMER 2026 COLLECTION</p>
+            <a href="collections.html" class="hero-cta" data-i18n="Explore Collection" data-i18n="Explore Collection">Explore Collection</a>
         </div>
         <div class="hero-image" style="background: linear-gradient(to right, rgba(10, 10, 10, 0.5), transparent), url('https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80'); background-size: cover; background-position: center;"></div>
     </section>
@@ -39,44 +48,44 @@
     <!-- Featured Collections -->
     <section class="featured">
         <div class="section-header">
-            <p class="section-label">Curated For You</p>
-            <h2 class="section-title">Featured Collections</h2>
+            <p class="section-label" data-i18n="Curated For You" data-i18n="Curated For You">Curated For You</p>
+            <h2 class="section-title" data-i18n="Featured Collections" data-i18n="Featured Collections">Featured Collections</h2>
         </div>
 
         <div class="collections-grid">
             <a href="collection-detail.html?collection=signature" class="collection-card">
                 <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=90'); background-size: cover; background-position: center;"></div>
                 <div class="collection-overlay">
-                    <h3 class="collection-name">Signature</h3>
-                    <p class="collection-count">10 Pieces</p>
+                    <h3 class="collection-name" data-i18n="Signature">Signature</h3>
+                    <p class="collection-count" data-i18n="10 Pieces">10 Pieces</p>
                 </div>
             </a>
             <a href="collection-detail.html?collection=evening" class="collection-card">
                 <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1539008835657-9e8e9680c956?w=600&q=80'); background-size: cover; background-position: center;"></div>
                 <div class="collection-overlay">
-                    <h3 class="collection-name">Evening</h3>
-                    <p class="collection-count">10 Pieces</p>
+                    <h3 class="collection-name" data-i18n="Evening">Evening</h3>
+                    <p class="collection-count" data-i18n="10 Pieces">10 Pieces</p>
                 </div>
             </a>
             <a href="collection-detail.html?collection=casual" class="collection-card">
                 <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80'); background-size: cover; background-position: center;"></div>
                 <div class="collection-overlay">
-                    <h3 class="collection-name">Casual</h3>
-                    <p class="collection-count">10 Pieces</p>
+                    <h3 class="collection-name" data-i18n="Casual">Casual</h3>
+                    <p class="collection-count" data-i18n="10 Pieces">10 Pieces</p>
                 </div>
             </a>
             <a href="collection-detail.html?collection=accessories" class="collection-card">
                 <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600&q=80'); background-size: cover; background-position: center;"></div>
                 <div class="collection-overlay">
                     <h3 class="collection-name">Accessories</h3>
-                    <p class="collection-count">10 Pieces</p>
+                    <p class="collection-count" data-i18n="10 Pieces">10 Pieces</p>
                 </div>
             </a>
             <a href="collection-detail.html?collection=essentials" class="collection-card">
                 <div class="collection-image" style="background-image: url('https://images.unsplash.com/photo-1467043153537-a4fba2cd39ef?w=1920&q=90'); background-size: cover; background-position: center;"></div>
                 <div class="collection-overlay">
-                    <h3 class="collection-name">Essentials</h3>
-                    <p class="collection-count">10 Pieces</p>
+                    <h3 class="collection-name" data-i18n="Essentials">Essentials</h3>
+                    <p class="collection-count" data-i18n="10 Pieces">10 Pieces</p>
                 </div>
             </a>
         </div>
@@ -85,14 +94,14 @@
     <!-- New Arrivals Preview -->
     <section class="featured">
         <div class="section-header">
-            <p class="section-label">Just In</p>
-            <h2 class="section-title">New Arrivals</h2>
+            <p class="section-label" data-i18n="Just In" data-i18n="Just In">Just In</p>
+            <h2 class="section-title" data-i18n="New Arrivals" data-i18n="New Arrivals">New Arrivals</h2>
         </div>
 
         <div class="products-grid" id="home-products-grid"></div>
 
         <div style="text-align: center; margin-top: 3rem;">
-            <a href="new-arrivals.html" class="btn-primary">View All New Arrivals</a>
+            <a href="new-arrivals.html" class="btn-primary" data-i18n="View All New Arrivals" data-i18n="View All New Arrivals">View All New Arrivals</a>
         </div>
     </section>
 
@@ -103,7 +112,7 @@
                 <h2>Crafted with<br>Precision &<br>Passion</h2>
                 <p>Each piece in our collection is thoughtfully designed and meticulously crafted using only the finest materials. We believe in creating timeless pieces that transcend seasonal trends.</p>
                 <p>Our commitment to sustainable luxury means every garment is made to last, combining traditional craftsmanship with contemporary design.</p>
-                <a href="about.html" class="hero-cta">Our Story</a>
+                <a href="about.html" class="hero-cta" data-i18n="Our Story" data-i18n="Our Story">Our Story</a>
             </div>
             <div class="editorial-image" style="background-image: url('https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1920&q=90'); background-size: cover; background-position: center;">
             </div>
@@ -113,11 +122,11 @@
     <!-- Newsletter -->
     <section class="newsletter">
         <div class="newsletter-content">
-            <h2>Join Our Circle</h2>
-            <p>Subscribe to receive exclusive offers, early access to new collections, and style inspiration.</p>
+            <h2 data-i18n="Join Our Circle" data-i18n="Join Our Circle">Join Our Circle</h2>
+            <p><span data-i18n="Subscribe to receive exclusive offers, early access to new collections, and style inspiration.">Subscribe to receive exclusive offers, early access to new collections, and style inspiration.</span></p>
             <form class="newsletter-form" onsubmit="event.preventDefault(); alert('Thank you for subscribing!');">
-                <input type="email" class="newsletter-input" placeholder="Your email address" required>
-                <button type="submit" class="newsletter-button">Subscribe</button>
+                <input type="email" class="newsletter-input" placeholder="Your email address" data-i18n-ph="Your email address" required>
+                <button type="submit" class="newsletter-button" data-i18n="Subscribe">Subscribe</button>
             </form>
         </div>
     </section>
@@ -128,33 +137,33 @@
             <div>
                 <div class="footer-brand">ATELIER NOIR</div>
                 <p class="footer-description">
-                    Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.
+                    <span data-i18n="Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020."><span data-i18n="Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.">Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.</span></span>
                 </p>
             </div>
             <div class="footer-section">
-                <h4>Shop</h4>
+                <h4 data-i18n="Shop">Shop</h4>
                 <ul class="footer-links">
-                    <li><a href="new-arrivals.html">New Arrivals</a></li>
-                    <li><a href="collections.html">Collections</a></li>
-                    <li><a href="gift-cards.html">Gift Cards</a></li>
+                    <li><a href="new-arrivals.html" data-i18n="New Arrivals" data-i18n="New Arrivals">New Arrivals</a></li>
+                    <li><a href="collections.html" data-i18n="Collections" data-i18n="Collections">Collections</a></li>
+                    <li><a href="gift-cards.html" data-i18n="Gift Cards" data-i18n="Gift Cards">Gift Cards</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Support</h4>
+                <h4 data-i18n="Support">Support</h4>
                 <ul class="footer-links">
-                    <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="size-guide.html">Size Guide</a></li>
-                    <li><a href="shipping.html">Shipping</a></li>
-                    <li><a href="returns.html">Returns</a></li>
+                    <li><a href="contact.html" data-i18n="Contact Us" data-i18n="Contact Us">Contact Us</a></li>
+                    <li><a href="size-guide.html" data-i18n="Size Guide" data-i18n="Size Guide">Size Guide</a></li>
+                    <li><a href="shipping.html" data-i18n="Shipping" data-i18n="Shipping">Shipping</a></li>
+                    <li><a href="returns.html" data-i18n="Returns" data-i18n="Returns">Returns</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Company</h4>
+                <h4 data-i18n="Company">Company</h4>
                 <ul class="footer-links">
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="sustainability.html">Sustainability</a></li>
-                    <li><a href="careers.html">Careers</a></li>
-                    <li><a href="privacy.html">Privacy</a></li>
+                    <li><a href="about.html" data-i18n="About" data-i18n="About">About</a></li>
+                    <li><a href="sustainability.html" data-i18n="Sustainability" data-i18n="Sustainability">Sustainability</a></li>
+                    <li><a href="careers.html" data-i18n="Careers" data-i18n="Careers">Careers</a></li>
+                    <li><a href="privacy.html" data-i18n="Privacy" data-i18n="Privacy">Privacy</a></li>
                 </ul>
             </div>
         </div>
@@ -169,6 +178,7 @@
         </div>
     </footer>
 
+    <script src="translations.js"></script>
     <script src="script.js"></script>
     <script>document.addEventListener("DOMContentLoaded", updateNavAuth);</script>
 </body>
