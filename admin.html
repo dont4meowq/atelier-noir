@@ -779,6 +779,7 @@
                     }
                     showNotification('Product added successfully');
                 }
+                clearProductCache();
                 resetProductForm();
                 await loadProducts();
                 updateStats();
@@ -794,6 +795,7 @@
                 method: 'DELETE',
                 headers: authHeaders()
             });
+            clearProductCache();
             showNotification(`"${name}" deleted`);
             await loadProducts();
             updateStats();

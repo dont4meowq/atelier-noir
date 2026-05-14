@@ -143,11 +143,6 @@
             }
         };
 
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
-
         async function loadCollection() {
             const collectionId = getQueryParam('collection') || 'signature';
             const collection = collections[collectionId];

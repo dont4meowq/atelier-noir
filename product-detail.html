@@ -504,15 +504,21 @@
         <div class="reviews-header">
             <div>
                 <h2 style="font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem;">Customer Reviews</h2>
+                <div class="rating-summary">
+                    <span class="rating-number">4.8</span>
+                    <div>
+                        <div class="rating-stars">★★★★★</div>
+                        <div style="font-size: 0.9rem; color: var(--text-muted);">
+                            Based on 127 reviews
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Reviews List -->
         <div id="reviewsList">
-            <div style="text-align:center; padding: 3rem 1rem; color: var(--text-muted);">
-                <p style="font-size: 1.1rem; margin-bottom: 0.5rem;">No reviews yet</p>
-                <p style="font-size: 0.9rem;">Be the first to share your experience.</p>
-            </div>
+            <!-- Reviews will be loaded by JavaScript -->
         </div>
     </section>
 
@@ -569,11 +575,6 @@
         let selectedSize = null;
         let selectedColor = null;
         let currentProduct = null;
-
-        function getQueryParam(param) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(param);
-        }
 
         async function loadProduct() {
             const productId = parseInt(getQueryParam('id') || '1');
@@ -783,7 +784,39 @@
             }
         }
 
+        // Sample Reviews Data
+        const sampleReviews = [
+            { name: "Sarah M.",   rating: 5, date: "2 weeks ago",  verified: true,  text: "Absolutely love this! The quality is outstanding and the fit is perfect. Highly recommend!", helpful: 24 },
+            { name: "Jessica L.", rating: 5, date: "3 weeks ago",  verified: true,  text: "Best purchase I've made this year. The fabric feels luxurious and the design is stunning.",   helpful: 18 },
+            { name: "Emily R.",   rating: 4, date: "1 month ago",  verified: true,  text: "Great product overall. Fits true to size and looks exactly like the pictures.",              helpful: 12 },
+            { name: "Amanda K.",  rating: 5, date: "1 month ago",  verified: true,  text: "Exceeded my expectations! The attention to detail is incredible.",                          helpful: 15 },
+            { name: "Rachel B.",  rating: 4, date: "2 months ago", verified: false, text: "Very nice quality. Shipping was fast and packaging was beautiful.",                         helpful: 8  }
+        ];
 
+        function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            if (!reviewsList) return;
+            reviewsList.innerHTML = sampleReviews.map(r => `
+                <div class="review-card">
+                    <div class="review-header">
+                        <div>
+                            <div class="reviewer-name">${r.name}</div>
+                            <div class="review-date">${r.date}</div>
+                        </div>
+                        ${r.verified ? '<span class="verified-badge">✓ Verified Purchase</span>' : ''}
+                    </div>
+                    <div class="review-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}</div>
+                    <div class="review-text">${r.text}</div>
+                    <div class="review-helpful">
+                        <span>Was this helpful?</span>
+                        <button onclick="alert('Thank you for your feedback!')">👍 ${r.helpful}</button>
+                        <button onclick="alert('Thank you for your feedback!')">👎</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        document.addEventListener('DOMContentLoaded', loadReviews);
     </script>
 </body>
 </html>    <style>

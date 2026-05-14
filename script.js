@@ -843,17 +843,48 @@ async function updateNavAuth() {
     }
 }
 
+// ==================== UTILITIES ====================
+
+function getQueryParam(param) {
+    return new URLSearchParams(window.location.search).get(param);
+}
+
 // ==================== SUPABASE API ====================
 
+// In-memory cache (TTL 30s) для уникнення дублюючих fetch
+const _productCache = { all: null, allAt: 0, byId: new Map() };
+const CACHE_TTL = 30_000;
+
+// Invalidate cache after admin operations
+function clearProductCache() {
+    _productCache.all = null;
+    _productCache.allAt = 0;
+    _productCache.byId.clear();
+}
+
 async function fetchAllProducts() {
+    const now = Date.now();
+    if (_productCache.all && (now - _productCache.allAt) < CACHE_TTL) {
+        return _productCache.all;
+    }
     const res = await fetch(`${SUPABASE_URL}/rest/v1/products?order=id.asc`, { headers: SB_HEADERS });
-    return res.json();
+    const data = await res.json();
+    _productCache.all = data;
+    _productCache.allAt = now;
+    // Заодно прогріваємо byId-кеш
+    for (const p of data) _productCache.byId.set(p.id, { value: p, at: now });
+    return data;
 }
 
 async function fetchProductById(id) {
+    const now = Date.now();
+    const cached = _productCache.byId.get(id);
+    if (cached && (now - cached.at) < CACHE_TTL) return cached.value;
     const res = await fetch(`${SUPABASE_URL}/rest/v1/products?id=eq.${id}&limit=1`, { headers: SB_HEADERS });
     const data = await res.json();
-    return data[0] || null;
+    const product = data[0] || null;
+    if (product) _productCache.byId.set(id, { value: product, at: now });
+    return product;
 }
 
 async function fetchNewArrivals() {

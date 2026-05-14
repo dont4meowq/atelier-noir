@@ -654,18 +654,6 @@
             updateNavAuth();
         });
 
-        function switchAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
-            if (tab === 'login') {
-                document.querySelector('.auth-tab:first-child').classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-            } else {
-                document.querySelector('.auth-tab:last-child').classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-            }
-        }
-
         window.handleLogin = async function(event) {
             event.preventDefault();
             const btn = event.target.querySelector('button[type="submit"]');
@@ -725,13 +713,6 @@
             }
         }
 
-        async function handleLogout() {
-            await signOut();
-            showNotification('Logged out successfully');
-            updateNavAuth();
-            location.reload();
-        }
-
         async function showDashboard() {
             document.getElementById('authSection').style.display = 'none';
             document.getElementById('dashboardSection').classList.add('active');
@@ -752,16 +733,6 @@
             if (data && data.length > 0) {
                 document.getElementById('adminPanelBtn').style.display = 'inline-block';
             }
-        }
-
-        function switchDashboardTab(tab) {
-            document.querySelectorAll('.dashboard-tab').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
-            event.target.classList.add('active');
-            document.getElementById(tab + 'Section').classList.add('active');
-            if (tab === 'wishlist') loadWishlist();
-            if (tab === 'orders') loadOrders();
-            if (tab === 'settings') loadSettings();
         }
 
         // Wishlist Functions
@@ -800,22 +771,6 @@
                     `;
                     grid.appendChild(card);
                 }
-            }
-        }
-
-        function removeFromWishlist(productId) {
-            let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-            wishlist = wishlist.filter(id => id !== productId);
-            localStorage.setItem('wishlist', JSON.stringify(wishlist));
-            showNotification('Removed from wishlist');
-            loadWishlist();
-        }
-
-        async function addToCartFromWishlist(productId) {
-            const product = await fetchProductById(productId);
-            if (product) {
-                addToCart(product);
-                removeFromWishlist(productId);
             }
         }
 
@@ -916,44 +871,6 @@
             document.getElementById('settingsAddress1').value = profile.address || '';
             document.getElementById('settingsCity').value = profile.city || '';
             document.getElementById('settingsZip').value = profile.postal || '';
-        }
-
-        async function saveSettings() {
-            const token = getAccessToken();
-            if (!token) return;
-
-            const fullName = document.getElementById('settingsName').value.trim();
-            const [firstName, ...rest] = fullName.split(' ');
-            const lastName = rest.join(' ') || '';
-
-            const user = await getSession();
-            if (!user) return;
-
-            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
-                method: 'PATCH',
-                headers: authHeaders(),
-                body: JSON.stringify({ first_name: firstName, last_name: lastName })
-            });
-            showNotification('Settings saved successfully');
-        }
-
-        async function saveAddress() {
-            const token = getAccessToken();
-            if (!token) return;
-
-            const user = await getSession();
-            if (!user) return;
-
-            await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${user.id}`, {
-                method: 'PATCH',
-                headers: authHeaders(),
-                body: JSON.stringify({
-                    address: document.getElementById('settingsAddress1').value,
-                    city: document.getElementById('settingsCity').value,
-                    postal: document.getElementById('settingsZip').value
-                })
-            });
-            showNotification('Address saved successfully');
         }
 
     </script>

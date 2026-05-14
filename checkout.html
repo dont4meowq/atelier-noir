@@ -844,9 +844,10 @@
                 }
             }
 
-            // 4. Очистити кошик і показати успіх
+            // 4. Очистити кошик і кеш продуктів, показати успіх
             localStorage.removeItem('cart');
             updateCartCount();
+            if (typeof clearProductCache === 'function') clearProductCache();
 
             document.getElementById('orderNumberDisplay').textContent = orderNumber;
             document.getElementById('successModal').classList.add('active');
