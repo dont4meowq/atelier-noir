@@ -17,7 +17,7 @@
         }
 
         .cart-items {
-            /* Left side - cart items */
+            
         }
 
         .cart-item {
@@ -230,7 +230,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
@@ -248,7 +248,6 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
     <div class="page-header">
         <div class="breadcrumb">
             <a href="index.html">Home</a> / Shopping Cart
@@ -256,12 +255,10 @@
         <h1>Shopping Cart</h1>
     </div>
 
-    <!-- Cart Content -->
     <div class="cart-container" id="cartContainer">
-        <!-- Will be populated by JavaScript -->
+        
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -327,7 +324,7 @@
 
             const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = subtotal > 500 ? 0 : 25;
-            const tax = subtotal * 0.1; // 10% tax
+            const tax = subtotal * 0.1; 
             const total = subtotal + shipping + tax;
 
             container.innerHTML = `

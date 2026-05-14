@@ -238,7 +238,6 @@
             }
         }
 
-        /* Success Modal */
         .success-modal {
             display: none;
             position: fixed;
@@ -340,7 +339,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
@@ -359,9 +358,9 @@
     </nav>
 
     <div class="checkout-container">
-        <!-- Left Column - Checkout Forms -->
+        
         <div>
-            <!-- Progress Steps -->
+            
             <div class="checkout-steps">
                 <div class="step completed">
                     <div class="step-number">1</div>
@@ -377,7 +376,6 @@
                 </div>
             </div>
 
-            <!-- Contact Information -->
             <div class="checkout-section">
                 <h2>Contact Information</h2>
                 <div class="form-group">
@@ -392,7 +390,6 @@
                 </div>
             </div>
 
-            <!-- Shipping Address -->
             <div class="checkout-section">
                 <h2>Shipping Address</h2>
                 <div class="form-row">
@@ -445,7 +442,6 @@
                 </div>
             </div>
 
-            <!-- Payment Method -->
             <div class="checkout-section">
                 <h2>Payment Method</h2>
                 <div class="payment-methods">
@@ -482,12 +478,11 @@
             </div>
         </div>
 
-        <!-- Right Column - Order Summary -->
         <div>
             <div class="checkout-section order-summary">
                 <h2>Order Summary</h2>
                 <div id="orderItems">
-                    <!-- Order items will be loaded here -->
+                    
                 </div>
 
                 <div class="summary-totals">
@@ -514,7 +509,6 @@
         </div>
     </div>
 
-    <!-- Success Modal -->
     <div class="success-modal" id="successModal">
         <div class="success-content" style="position: relative;">
             <button onclick="document.getElementById('successModal').classList.remove('active')"
@@ -534,7 +528,7 @@
         </div>
     </div>
     <script>
-        // ESC закриває success modal
+        
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 const m = document.getElementById('successModal');
@@ -543,7 +537,6 @@
         });
     </script>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -592,7 +585,7 @@
 
     <script src="script.js"></script>
     <script>
-        // Load cart items for checkout
+        
         function loadCheckoutItems() {
             const cart = JSON.parse(localStorage.getItem('cart') || '[]');
             const orderItemsContainer = document.getElementById('orderItems');
@@ -621,9 +614,8 @@
                 `;
             });
 
-            // Calculate totals (must match cart.html)
             const shipping = subtotal > 500 ? 0 : 25;
-            const tax = subtotal * 0.1; // 10% tax
+            const tax = subtotal * 0.1; 
             const total = subtotal + shipping + tax;
 
             document.getElementById('subtotal').textContent = '$' + subtotal.toFixed(2);
@@ -658,7 +650,6 @@
                 return;
             }
 
-            // Перевірка картки, якщо обраний "Credit Card"
             const selectedPayment = document.querySelector('.payment-method.selected');
             const isCard = !selectedPayment || selectedPayment.textContent.toLowerCase().includes('credit');
             if (isCard) {
@@ -676,7 +667,7 @@
                     document.getElementById('expiry').style.borderColor = '#c41e3a';
                     return;
                 }
-                // Проверка что дата не в прошлом
+                
                 const now = new Date();
                 const expYear = 2000 + +m[2];
                 const expMonth = +m[1];
@@ -699,8 +690,7 @@
                 return;
             }
 
-            // Pre-check stock (best-effort race protection)
-            // Сумуємо потрібну кількість по кожному product_id (з усіх варіантів)
+            
             const requiredByProduct = {};
             for (const item of cart) {
                 requiredByProduct[item.id] = (requiredByProduct[item.id] || 0) + item.quantity;
@@ -729,20 +719,17 @@
             let subtotal = 0;
             cart.forEach(item => { subtotal += item.price * item.quantity; });
             const shipping = subtotal > 500 ? 0 : 25;
-            const tax = +(subtotal * 0.1).toFixed(2); // 10% tax, matches cart.html
+            const tax = +(subtotal * 0.1).toFixed(2); 
             const total = +(subtotal + shipping + tax).toFixed(2);
 
             const email = document.getElementById('email').value;
             const orderNumber = 'AN-' + Date.now().toString().slice(-6);
 
-            // Зберегти email для account.html
             localStorage.setItem('customerEmail', email);
 
-            // Перевірити чи залогінений
             const session = await getSession();
             const userId = session ? session.id : null;
 
-            // 1. Створити замовлення в Supabase
             const orderPayload = {
                 order_number: orderNumber,
                 email: email,
@@ -781,7 +768,7 @@
             const orderData = await orderRes.json();
             let orderId;
             if (!orderData || !orderData[0] || !orderData[0].id) {
-                // Якщо RLS не повернув запис — отримуємо id окремим запитом
+                
                 const lastOrderRes = await fetch(
                     `${SUPABASE_URL}/rest/v1/orders?order_number=eq.${orderNumber}&select=id&limit=1`,
                     { headers: { ...authHeaders() } }
@@ -797,7 +784,6 @@
                 orderId = orderData[0].id;
             }
 
-            // 2. Зберегти товари замовлення
             const items = cart.map(item => ({
                 order_id: orderId,
                 product_id: item.id,
@@ -818,8 +804,7 @@
                 console.warn('Failed to save order items:', itemsRes.status);
             }
 
-            // 3. Зменшити кількість товарів в наявності
-            // Сумуємо по product_id (з усіма варіантами) щоб робити 1 PATCH на товар
+            
             const decBy = {};
             for (const item of cart) {
                 decBy[item.id] = (decBy[item.id] || 0) + item.quantity;
@@ -844,7 +829,6 @@
                 }
             }
 
-            // 4. Очистити кошик і кеш продуктів, показати успіх
             localStorage.removeItem('cart');
             updateCartCount();
             if (typeof clearProductCache === 'function') clearProductCache();
@@ -853,14 +837,12 @@
             document.getElementById('successModal').classList.add('active');
         };
 
-        // Auto-format card number
         document.getElementById('cardNumber')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\s/g, '');
             let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
             e.target.value = formattedValue;
         });
 
-        // Auto-format expiry
         document.getElementById('expiry')?.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
             if (value.length >= 2) {
@@ -869,17 +851,15 @@
             e.target.value = value;
         });
 
-        // Load items on page load
         window.addEventListener('DOMContentLoaded', async () => {
             loadCheckoutItems();
             updateNavAuth();
 
-            // Перевіряємо валідність токена — якщо прострочений, getSession його очистить
             const token = getAccessToken();
             if (token) {
                 const session = await getSession();
                 if (session) {
-                    // Сесія валідна — підставити дані профілю
+                    
                     const res = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&limit=1`, {
                         headers: authHeaders()
                     });
@@ -887,7 +867,7 @@
                         const data = await res.json();
                         const profile = data[0];
                         if (profile) {
-                            // Заповнюємо тільки порожні поля — не перетираємо введене користувачем
+                            
                             const fill = (id, val) => {
                                 const el = document.getElementById(id);
                                 if (el && !el.value && val) el.value = val;
@@ -902,7 +882,7 @@
                         }
                     }
                 }
-                // Якщо session === null — getSession вже очистив токен, далі checkout йде як гостьовий
+                
             }
             updateNavAuth();
         });

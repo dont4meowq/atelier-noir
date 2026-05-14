@@ -58,7 +58,6 @@
         .admin-section { display: none; }
         .admin-section.active { display: block; }
 
-        /* Access Denied */
         .access-denied {
             text-align: center;
             padding: 6rem 2rem;
@@ -71,7 +70,6 @@
             margin-bottom: 1rem;
         }
 
-        /* Login form */
         .admin-login {
             max-width: 400px;
             margin: 4rem auto;
@@ -87,7 +85,6 @@
             text-align: center;
         }
 
-        /* Forms */
         .admin-form {
             background: var(--accent-cream);
             padding: 2rem;
@@ -171,7 +168,6 @@
             color: white;
         }
 
-        /* Tables */
         .admin-table-wrapper { overflow-x: auto; }
 
         .admin-table {
@@ -258,7 +254,6 @@
             font-size: 0.8rem;
         }
 
-        /* Stats */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -336,7 +331,6 @@
         </div>
     </nav>
 
-    <!-- Login Screen -->
     <div id="adminLoginScreen">
         <div class="admin-login">
             <h2>Admin Access</h2>
@@ -352,7 +346,6 @@
         </div>
     </div>
 
-    <!-- Access Denied -->
     <div id="accessDenied" style="display:none;">
         <div class="access-denied">
             <h2>Access Denied</h2>
@@ -361,7 +354,6 @@
         </div>
     </div>
 
-    <!-- Admin Panel -->
     <div id="adminPanel" style="display:none;">
         <div class="admin-wrapper">
             <div class="admin-header">
@@ -372,7 +364,6 @@
                 </div>
             </div>
 
-            <!-- Stats -->
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-number" id="statProducts">—</div>
@@ -392,16 +383,13 @@
                 </div>
             </div>
 
-            <!-- Tabs -->
             <div class="admin-tabs">
                 <button class="admin-tab active" onclick="switchAdminTab('products', this)">Products</button>
                 <button class="admin-tab" onclick="switchAdminTab('orders', this)">Orders</button>
             </div>
 
-            <!-- Products Section -->
             <div id="adminProducts" class="admin-section active">
 
-                <!-- Add Product Form -->
                 <div class="admin-form" id="productForm">
                     <h3 id="formTitle">Add New Product</h3>
                     <input type="hidden" id="editProductId">
@@ -466,7 +454,6 @@
                     </div>
                 </div>
 
-                <!-- Products Table -->
                 <div class="search-bar">
                     <input type="text" id="productSearch" placeholder="Search products..." oninput="filterProductsTable()">
                     <select id="categoryFilter" onchange="filterProductsTable()" style="padding:0.6rem 1rem;border:1px solid var(--border-subtle);font-family:'Montserrat',sans-serif;">
@@ -502,7 +489,6 @@
                 </div>
             </div>
 
-            <!-- Orders Section -->
             <div id="adminOrders" class="admin-section">
                 <div class="search-bar">
                     <input type="text" id="orderSearch" placeholder="Search by email or order number..." oninput="filterOrdersTable()">
@@ -542,7 +528,6 @@
         let allProducts = [];
         let allOrders = [];
 
-        // Захист від XSS — екранує спецсимволи перед вставкою в innerHTML
         function esc(s) {
             if (s == null) return '';
             return String(s).replace(/[&<>"']/g, c => ({

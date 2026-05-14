@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
@@ -26,7 +26,6 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
     <div class="page-header">
         <div class="breadcrumb">
             <a href="index.html">Home</a> / <a href="collections.html">Collections</a> / <span id="collectionName">Collection</span>
@@ -35,14 +34,12 @@
         <p id="collectionDescription">Curated pieces for every occasion</p>
     </div>
 
-    <!-- Products -->
     <section class="content-container">
         <div class="products-grid" id="collectionProducts">
-            <!-- Products will be loaded dynamically -->
+            
         </div>
     </section>
 
-    <!-- Newsletter -->
     <section class="newsletter">
         <div class="newsletter-content">
             <h2>Join Our Circle</h2>
@@ -54,7 +51,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -152,11 +148,9 @@
             document.getElementById('collectionTitle').textContent = collection.name;
             document.getElementById('collectionDescription').textContent = collection.description;
 
-            // Один запит для всіх товарів колекції замість N запитів
             const products = await fetchProductsByIds(collection.products);
             const productsContainer = document.getElementById('collectionProducts');
 
-            // Зберігаємо порядок, заданий у колекції
             const ordered = collection.products
                 .map(id => products.find(p => p.id === id))
                 .filter(Boolean);

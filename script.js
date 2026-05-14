@@ -1,13 +1,13 @@
-// ==================== I18N (EN <-> UK) ====================
+
 const TRANSLATIONS = {
-    // Nav
+    
     "Collections": "Колекції",
     "New Arrivals": "Новинки",
     "About": "Про нас",
     "Contact": "Контакти",
     "Home": "Головна",
 
-    // Footer
+    
     "Shop": "Магазин",
     "Support": "Підтримка",
     "Company": "Компанія",
@@ -28,14 +28,14 @@ const TRANSLATIONS = {
     "Redefining contemporary luxury fashion with timeless elegance and exceptional craftsmanship since 2020.": "Переосмислення сучасної люксової моди з позачасовою елегантністю та винятковою майстерністю з 2020 року.",
     "Redefining contemporary luxury fashion with timeless elegance.": "Переосмислення сучасної люксової моди з позачасовою елегантністю.",
 
-    // Newsletter
+    
     "Join Our Circle": "Приєднуйтесь до нас",
     "Subscribe to receive exclusive offers, early access to new collections, and style inspiration.": "Підпишіться, щоб отримувати ексклюзивні пропозиції, ранній доступ до нових колекцій та натхнення для стилю.",
     "Your email address": "Ваша електронна адреса",
     "Subscribe": "Підписатися",
     "Thank you for subscribing!": "Дякуємо за підписку!",
 
-    // Home page
+    
     "Timeless": "Позачасова",
     "Elegance": "Елегантність",
     "Redefined": "Переосмислена",
@@ -59,7 +59,7 @@ const TRANSLATIONS = {
     "Outerwear": "Верхній одяг",
     "10 Pieces": "10 моделей",
 
-    // Collections page
+    
     "Our Collections": "Наші колекції",
     "Curated selections of timeless elegance": "Підібрані добірки позачасової елегантності",
     "Signature Collection": "Сігнатюр колекція",
@@ -74,10 +74,10 @@ const TRANSLATIONS = {
     "Curated pieces for every occasion": "Підібрані речі для кожного випадку",
     "Collection": "Колекція",
 
-    // New Arrivals page
+    
     "Discover our latest collection": "Відкрийте нашу нову колекцію",
 
-    // Product detail page
+    
     "Product Detail": "Деталі товару",
     "Product Name": "Назва товару",
     "Product description will be loaded here.": "Опис товару буде завантажено тут.",
@@ -130,7 +130,7 @@ const TRANSLATIONS = {
     "SALE": "ЗНИЖКА",
     "OUT OF STOCK": "НЕМАЄ В НАЯВНОСТІ",
 
-    // Cart page
+    
     "Shopping Cart": "Кошик",
     "Your Cart is Empty": "Ваш кошик порожній",
     "Add some items to your cart to get started.": "Додайте товари в кошик, щоб почати.",
@@ -147,7 +147,7 @@ const TRANSLATIONS = {
     "Remove item": "Видалити товар",
     "Your cart is empty": "Ваш кошик порожній",
 
-    // Checkout page
+    
     "Checkout": "Оформлення",
     "Cart": "Кошик",
     "Complete": "Готово",
@@ -189,7 +189,7 @@ const TRANSLATIONS = {
     "View Orders": "Переглянути замовлення",
     "Please fill in all required fields": "Будь ласка, заповніть усі обов'язкові поля",
 
-    // Account page
+    
     "My Account": "Мій акаунт",
     "Welcome Back": "З поверненням",
     "Sign in to access your account": "Увійдіть, щоб отримати доступ до акаунта",
@@ -230,7 +230,7 @@ const TRANSLATIONS = {
     "Settings saved successfully": "Налаштування збережено",
     "Address saved successfully": "Адресу збережено",
 
-    // About page
+    
     "About Atelier Noir": "Про Atelier Noir",
     "We believe in creating timeless pieces that transcend seasonal trends. Each garment is a testament to our commitment to exceptional craftsmanship, sustainable practices, and contemporary elegance.": "Ми віримо у створення позачасових речей, що виходять за межі сезонних трендів. Кожен виріб — це підтвердження нашої відданості винятковій майстерності, сталим практикам і сучасній елегантності.",
     "Founded in 2020, Atelier Noir emerged from a passion for creating fashion that combines timeless elegance with modern sensibility. We started with a simple vision: to craft pieces that women would cherish for years to come.": "Заснований у 2020 році, Atelier Noir виник із пристрасті до створення моди, що поєднує позачасову елегантність із сучасною чутливістю. Ми почали з простого бачення: створювати речі, які жінки цінуватимуть роками.",
@@ -248,7 +248,7 @@ const TRANSLATIONS = {
     "Timeless Design": "Позачасовий дизайн",
     "Our designs transcend trends, creating pieces that remain elegant and relevant season after season.": "Наші дизайни виходять за межі трендів, створюючи речі, які залишаються елегантними та актуальними сезон за сезоном.",
 
-    // Contact page
+    
     "Get In Touch": "Зв'яжіться з нами",
     "We'd love to hear from you": "Ми будемо раді почути вас",
     "Whether you have a question about our products, need styling advice, or want to discuss a custom order, our team is here to help.": "Чи маєте ви питання щодо наших товарів, потребуєте поради зі стилю або хочете обговорити індивідуальне замовлення — наша команда готова допомогти.",
@@ -278,7 +278,7 @@ const TRANSLATIONS = {
     "Send Message": "Надіслати повідомлення",
     "Thank you for your message! We will get back to you within 24 hours.": "Дякуємо за повідомлення! Ми зв'яжемося з вами протягом 24 годин.",
 
-    // Search page
+    
     "Search": "Пошук",
     "Find your perfect piece": "Знайдіть свою ідеальну річ",
     "Search for products...": "Пошук товарів...",
@@ -292,7 +292,7 @@ const TRANSLATIONS = {
     "No products found": "Товари не знайдено",
     "Try adjusting your search or filters": "Спробуйте змінити запит або фільтри",
 
-    // Gift cards
+    
     "Gift Cards": "Подарункові картки",
     "Share the gift of timeless elegance. Perfect for any occasion, our gift cards let your loved ones choose exactly what they desire.": "Подаруйте позачасову елегантність. Ідеальні для будь-якої нагоди — наші подарункові картки дозволяють обрати саме те, що бажають ваші близькі.",
     "SELECT AN AMOUNT": "ОБЕРІТЬ СУМУ",
@@ -317,7 +317,7 @@ const TRANSLATIONS = {
     "Easy to Use": "Просто використовувати",
     "Simply enter the gift card code at checkout to apply the balance to any order.": "Просто введіть код картки при оформленні, щоб застосувати її до замовлення.",
 
-    // Careers
+    
     "Join Our Team": "Приєднуйтесь до команди",
     "Build the future of luxury fashion with us": "Створюйте майбутнє люксової моди разом із нами",
     "Why Atelier Noir?": "Чому Atelier Noir?",
@@ -352,7 +352,7 @@ const TRANSLATIONS = {
     "Send us your resume. We're always looking for talented individuals to join our team.": "Надішліть нам резюме. Ми завжди шукаємо талановитих людей до нашої команди.",
     "Get in Touch": "Зв'яжіться з нами",
 
-    // Size Guide
+    
     "Find your perfect fit with our comprehensive sizing charts": "Знайдіть свій ідеальний розмір за нашими докладними таблицями",
     "Women's Clothing": "Жіночий одяг",
     "Women's Shoes": "Жіноче взуття",
@@ -372,7 +372,7 @@ const TRANSLATIONS = {
     "Need Help Finding Your Size?": "Потрібна допомога з розміром?",
     "Our customer service team is here to assist you.": "Наша служба підтримки готова допомогти.",
 
-    // Shipping
+    
     "Shipping Information": "Інформація про доставку",
     "Fast, secure delivery to your door": "Швидка та безпечна доставка до ваших дверей",
     "Free Standard Shipping": "Безкоштовна стандартна доставка",
@@ -392,7 +392,7 @@ const TRANSLATIONS = {
     "All items are carefully packaged in our signature boxes with tissue paper and branded materials.": "Усі товари ретельно упаковані у фірмові коробки з обгортковим папером та брендованими матеріалами.",
     "Questions about shipping?": "Питання щодо доставки?",
 
-    // Returns
+    
     "Returns & Exchanges": "Повернення та обмін",
     "Easy returns within 30 days": "Прості повернення протягом 30 днів",
     "30-Day Return Policy": "Політика повернення 30 днів",
@@ -410,7 +410,7 @@ const TRANSLATIONS = {
     "Refund processed within 5-7 business days": "Повернення коштів протягом 5-7 робочих днів",
     "Questions about returns?": "Питання щодо повернень?",
 
-    // Privacy
+    
     "How we protect and use your information": "Як ми захищаємо та використовуємо вашу інформацію",
     "Last updated: January 2026": "Останнє оновлення: січень 2026",
     "At Atelier Noir, we take your privacy seriously. This policy explains how we collect, use, and protect your personal information.": "В Atelier Noir ми серйозно ставимось до вашої конфіденційності. Ця політика пояснює, як ми збираємо, використовуємо та захищаємо вашу особисту інформацію.",
@@ -466,7 +466,7 @@ const TRANSLATIONS = {
     "Questions about our privacy policy?": "Питання щодо політики конфіденційності?",
     "Contact us at privacy@ateliernoir.com": "Звертайтеся на privacy@ateliernoir.com",
 
-    // Sustainability
+    
     "Our Commitment to Sustainability": "Наша відданість сталому розвитку",
     "Fashion with a conscience": "Мода з совістю",
     "At Atelier Noir, we believe luxury and sustainability go hand in hand. Every decision we make considers the impact on our planet and the people who make our clothing.": "В Atelier Noir ми віримо, що люкс і сталий розвиток йдуть пліч-о-пліч. Кожне рішення враховує вплив на планету та людей, які створюють наш одяг.",
@@ -490,7 +490,7 @@ const TRANSLATIONS = {
     "Want to learn more?": "Хочете дізнатися більше?",
     "Read our annual sustainability report": "Прочитайте наш річний звіт зі сталого розвитку",
 
-    // Admin
+    
     "Admin Access": "Доступ адміністратора",
     "Enter password": "Введіть пароль",
     "Access Denied": "Доступ заборонено",
@@ -548,7 +548,7 @@ const TRANSLATIONS = {
     "Please enter email and password": "Будь ласка, введіть email та пароль",
     "Status updated to": "Статус змінено на",
 
-    // Common JS-side notifications & misc
+    
     "Invalid email or password": "Невірний email або пароль",
     "Registration failed": "Помилка реєстрації",
     "Failed to create order": "Не вдалося створити замовлення",
@@ -594,13 +594,13 @@ const I18N = {
         if ((m = t.match(/^Size: (.+)$/))) return `Розмір: ${m[1]}`;
         if ((m = t.match(/^Color: (.+)$/))) return `Колір: ${m[1]}`;
         if ((m = t.match(/^(\d+) Pieces?$/))) return `${m[1]} моделей`;
-        // Breadcrumbs: "/ X" → "/ переклад"
+        
         if ((m = t.match(/^\/\s*(.+)$/))) {
             const seg = m[1].trim();
             const tr = TRANSLATIONS[seg];
             if (tr) return `/ ${tr}`;
         }
-        // Order status uppercase
+        
         const statusUpper = { 'PROCESSING': 'ОБРОБЛЯЄТЬСЯ', 'SHIPPED': 'ВІДПРАВЛЕНО', 'DELIVERED': 'ДОСТАВЛЕНО', 'CANCELLED': 'СКАСОВАНО' };
         if (statusUpper[t]) return statusUpper[t];
         return null;
@@ -611,7 +611,7 @@ const I18N = {
         if (!root) return;
         const skipTags = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT']);
 
-        // Translate text nodes
+        
         const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
             acceptNode: (node) => {
                 if (skipTags.has(node.parentNode?.tagName)) return NodeFilter.FILTER_REJECT;
@@ -629,7 +629,7 @@ const I18N = {
             if (hit) node.nodeValue = original.replace(trimmed, hit);
         }
 
-        // Translate placeholder, title, value (for button-type inputs), alt attrs
+        
         const attrSelectors = [
             ['[placeholder]', 'placeholder'],
             ['[title]', 'title'],
@@ -645,8 +645,7 @@ const I18N = {
             });
         }
 
-        // Translate <option> text (already covered by text walker, but explicit for safety)
-        // and <title> in head
+
         if (root === document.body || root === document) {
             const titleEl = document.querySelector('title');
             if (titleEl) {
@@ -654,7 +653,7 @@ const I18N = {
                 const hit = TRANSLATIONS[t.trim()];
                 if (hit) titleEl.textContent = hit;
                 else {
-                    // Try splitting "X - ATELIER NOIR" pattern
+                    
                     const m = t.match(/^(.+?)\s*-\s*ATELIER NOIR$/i);
                     if (m && TRANSLATIONS[m[1].trim()]) {
                         titleEl.textContent = TRANSLATIONS[m[1].trim()] + ' - ATELIER NOIR';
@@ -682,14 +681,14 @@ const I18N = {
             this.lang = this.lang === 'uk' ? 'en' : 'uk';
             location.reload();
         });
-        // Insert before the first icon (search)
+        
         navIcons.insertBefore(btn, navIcons.firstChild);
     },
 
     init() {
         this.injectButton();
         this.apply();
-        // Watch for dynamically added content
+        
         const mo = new MutationObserver((mutations) => {
             if (this.lang !== 'uk') return;
             for (const m of mutations) {
@@ -703,14 +702,14 @@ const I18N = {
                     }
                 }
             }
-            // Re-inject button if nav-icons was just added
+            
             if (!document.querySelector('.lang-toggle')) this.injectButton();
         });
         mo.observe(document.body, { childList: true, subtree: true });
     }
 };
 
-// Wrap window.alert to translate
+
 const _origAlert = window.alert;
 window.alert = function(msg) {
     if (I18N.lang === 'uk' && typeof msg === 'string') {
@@ -720,7 +719,7 @@ window.alert = function(msg) {
     return _origAlert.call(window, msg);
 };
 
-// Wrap window.confirm to translate
+
 const _origConfirm = window.confirm;
 window.confirm = function(msg) {
     if (I18N.lang === 'uk' && typeof msg === 'string') {
@@ -732,7 +731,7 @@ window.confirm = function(msg) {
 
 document.addEventListener('DOMContentLoaded', () => I18N.init());
 
-// ==================== SUPABASE CONFIG ====================
+
 const SUPABASE_URL = 'https://cjuqmzioojlswirlkvkd.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNqdXFtemlvb2psc3dpcmxrdmtkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NzgxNzMsImV4cCI6MjA5MDU1NDE3M30.f5uci17300R7nJTFLRCD6sIp_uQzcrcBqwYpzZdpiWI';
 
@@ -741,7 +740,7 @@ const SB_HEADERS = {
     'Content-Type': 'application/json'
 };
 
-// ==================== AUTH ====================
+
 
 async function getSession() {
     const token = getAccessToken();
@@ -750,7 +749,7 @@ async function getSession() {
         headers: { ...SB_HEADERS, 'Authorization': `Bearer ${token}` }
     });
     if (!res.ok) {
-        // 401/403 → токен невалідний/прострочений — очищуємо
+        
         if (res.status === 401 || res.status === 403) {
             const key = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
             localStorage.removeItem(key);
@@ -766,7 +765,7 @@ function getAccessToken() {
     if (!raw) return null;
     try {
         const parsed = JSON.parse(raw);
-        // Перевіряємо що це реальний токен а не помилка
+        
         if (!parsed.access_token || parsed.error_code) {
             localStorage.removeItem(key);
             return null;
@@ -791,7 +790,7 @@ async function signUp(email, password, firstName, lastName) {
     const data = await res.json();
     if (!res.ok || data.error) throw new Error(data.error_description || data.error?.message || data.msg || 'Registration failed');
 
-    // Зберегти ім'я в profiles
+    
     if (data.user) {
         await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${data.user.id}`, {
             method: 'PATCH',
@@ -813,7 +812,7 @@ async function signIn(email, password) {
         throw new Error(data.error_description || data.error || data.msg || 'Invalid email or password');
     }
 
-    // Зберегти токен
+    
     const key = `sb-${SUPABASE_URL.split('//')[1].split('.')[0]}-auth-token`;
     localStorage.setItem(key, JSON.stringify(data));
     localStorage.setItem('customerEmail', email);
@@ -843,19 +842,19 @@ async function updateNavAuth() {
     }
 }
 
-// ==================== UTILITIES ====================
+
 
 function getQueryParam(param) {
     return new URLSearchParams(window.location.search).get(param);
 }
 
-// ==================== SUPABASE API ====================
 
-// In-memory cache (TTL 30s) для уникнення дублюючих fetch
+
+
 const _productCache = { all: null, allAt: 0, byId: new Map() };
 const CACHE_TTL = 30_000;
 
-// Invalidate cache after admin operations
+
 function clearProductCache() {
     _productCache.all = null;
     _productCache.allAt = 0;
@@ -871,7 +870,7 @@ async function fetchAllProducts() {
     const data = await res.json();
     _productCache.all = data;
     _productCache.allAt = now;
-    // Заодно прогріваємо byId-кеш
+    
     for (const p of data) _productCache.byId.set(p.id, { value: p, at: now });
     return data;
 }
@@ -913,7 +912,7 @@ async function searchProducts(query, category) {
     return res.json();
 }
 
-// ==================== CART ====================
+
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
@@ -928,12 +927,12 @@ function addToCart(product) {
     const color = product.selectedColor || null;
     const qtyToAdd = product.quantity || 1;
 
-    // Скільки цього товару (з усіма варіантами) вже в кошику
+    
     const totalInCart = cart
         .filter(i => i.id === productId)
         .reduce((s, i) => s + i.quantity, 0);
 
-    // Визначаємо stock: спочатку з product, потім із збереженого item
+    
     let stock = typeof product.stock === 'number' ? product.stock : undefined;
     if (stock === undefined) {
         const stored = cart.find(i => i.id === productId);
@@ -1016,7 +1015,7 @@ function updateCartItemQuantity(productId, quantity, size, color) {
         return;
     }
 
-    // Перевірка stock: сума інших варіантів + новий qty не може перевищувати stock
+    
     if (typeof item.stock === 'number') {
         const otherVariants = cart
             .filter(i => i.id === productId && i !== item)
@@ -1036,7 +1035,7 @@ function updateCartItemQuantity(productId, quantity, size, color) {
     if (typeof renderCart === 'function') renderCart();
 }
 
-// ==================== WISHLIST ====================
+
 
 function toggleWishlist(productId) {
     let wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
@@ -1063,14 +1062,14 @@ function updateWishlistButtons() {
     });
 }
 
-// ==================== NOTIFICATIONS ====================
+
 
 function showNotification(message) {
     if (I18N.lang === 'uk' && typeof message === 'string') {
         const hit = TRANSLATIONS[message.trim()];
         if (hit) message = hit;
         else {
-            // pattern-based fallbacks
+            
             let m;
             if ((m = message.match(/^Only (\d+) left$/))) message = `Залишилось ${m[1]}`;
             else if ((m = message.match(/^Only (\d+) left in stock$/))) message = `Залишилось ${m[1]} в наявності`;
@@ -1117,13 +1116,13 @@ _style.textContent = `
 `;
 document.head.appendChild(_style);
 
-// ==================== SCROLL ANIMATION ====================
+
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-// ==================== RENDER ====================
+
 
 function renderProductCard(product) {
     const outOfStock = product.stock === 0;
@@ -1174,8 +1173,6 @@ async function renderRelatedProducts(currentId, category) {
     container.innerHTML = related.map(renderProductCard).join('');
     container.querySelectorAll('.fade-in-on-scroll').forEach(el => el.classList.add('visible'));
 }
-
-// ==================== INIT ====================
 
 document.addEventListener('DOMContentLoaded', () => {
     updateCartCount();

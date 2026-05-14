@@ -256,7 +256,6 @@
             }
         }
 
-        /* Reviews Section */
         .reviews-section {
             max-width: 900px;
             margin: 4rem auto;
@@ -355,7 +354,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
@@ -373,19 +372,17 @@
         </div>
     </nav>
 
-    <!-- Page Header -->
     <div class="page-header">
         <div class="breadcrumb">
             <a href="index.html">Home</a> / <a href="new-arrivals.html">New Arrivals</a> / <span id="breadcrumb-product">Product</span>
         </div>
     </div>
 
-    <!-- Product Detail -->
     <section class="product-detail">
         <div class="product-gallery">
             <img id="mainImage" class="main-image" src="" alt="Product Image" style="width: 100%; height: 100%; object-fit: cover;">
             <div class="thumbnail-grid" id="thumbnailGrid">
-                <!-- Thumbnails will be loaded dynamically -->
+                
             </div>
         </div>
 
@@ -405,14 +402,14 @@
             <div class="size-selector">
                 <h3>Select Size</h3>
                 <div class="size-options" id="sizeOptions">
-                    <!-- Sizes will be loaded dynamically -->
+                    
                 </div>
             </div>
 
             <div class="color-selector">
                 <h3>Select Color</h3>
                 <div class="color-options" id="colorOptions">
-                    <!-- Colors will be loaded dynamically -->
+                    
                 </div>
             </div>
 
@@ -438,13 +435,12 @@
             <div class="product-features">
                 <h3>Product Features</h3>
                 <ul id="productFeatures">
-                    <!-- Features will be loaded dynamically -->
+                    
                 </ul>
             </div>
         </div>
     </section>
 
-    <!-- Related Products -->
     <section class="featured">
         <div class="section-header">
             <p class="section-label">You May Also Like</p>
@@ -498,8 +494,7 @@
         </div>
     </section>
 
-
-    <!-- Reviews Section -->
+    
     <section class="reviews-section">
         <div class="reviews-header">
             <div>
@@ -516,13 +511,11 @@
             </div>
         </div>
 
-        <!-- Reviews List -->
         <div id="reviewsList">
-            <!-- Reviews will be loaded by JavaScript -->
+            
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -590,7 +583,7 @@
                         </div>
                     `;
                 }
-                // Скрываем секции отзывов и related если товар не найден
+                
                 document.querySelectorAll('.reviews-section, .featured').forEach(s => s.style.display = 'none');
                 return;
             }
@@ -602,7 +595,6 @@
             document.getElementById('productDescription').textContent = currentProduct.description;
             setTimeout(updateProductWishlistButton, 50);
 
-            // Images
             const imgs = (currentProduct.images && currentProduct.images.length > 0)
                 ? currentProduct.images : [currentProduct.image];
             document.getElementById('mainImage').src = imgs[0];
@@ -625,7 +617,6 @@
                 document.getElementById('productOriginalPrice').style.display = 'inline';
             }
 
-            // Sizes
             const sizeOptions = document.getElementById('sizeOptions');
             sizeOptions.innerHTML = '';
             currentProduct.sizes.forEach(size => {
@@ -636,7 +627,6 @@
                 sizeOptions.appendChild(btn);
             });
 
-            // Colors
             const colorOptions = document.getElementById('colorOptions');
             colorOptions.innerHTML = '';
             currentProduct.colors.forEach(color => {
@@ -647,7 +637,6 @@
                 colorOptions.appendChild(btn);
             });
 
-            // Features
             const featuresList = document.getElementById('productFeatures');
             featuresList.innerHTML = '';
             currentProduct.features.forEach(feature => {
@@ -658,10 +647,9 @@
 
             await renderRelatedProducts(currentProduct.id, currentProduct.category);
 
-            // Stock status
             const btn = document.getElementById('addToCartBtn');
             const stockInfo = document.getElementById('stockInfo');
-            // Обмежити max кількість до stock
+            
             const qInput = document.getElementById('quantity');
             if (qInput) qInput.max = currentProduct.stock;
             if (currentProduct.stock === 0) {
@@ -746,10 +734,8 @@
             });
         }
 
-        // Load product on page load
         document.addEventListener('DOMContentLoaded', loadProduct);
 
-        // Thumbnail click handlers
         document.querySelectorAll('.thumbnail').forEach((thumb, index) => {
             thumb.addEventListener('click', () => {
                 document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
@@ -757,8 +743,7 @@
                 document.getElementById('mainImage').textContent = `View ${index + 1}`;
             });
         });
-    
-        // Wishlist functionality for product detail page
+
         function toggleProductWishlist() {
             if (currentProduct && currentProduct.id) {
                 toggleWishlist(currentProduct.id);
@@ -784,7 +769,6 @@
             }
         }
 
-        // Sample Reviews Data
         const sampleReviews = [
             { name: "Sarah M.",   rating: 5, date: "2 weeks ago",  verified: true,  text: "Absolutely love this! The quality is outstanding and the fit is perfect. Highly recommend!", helpful: 24 },
             { name: "Jessica L.", rating: 5, date: "3 weeks ago",  verified: true,  text: "Best purchase I've made this year. The fabric feels luxurious and the design is stunning.",   helpful: 18 },
@@ -824,7 +808,6 @@
             display: block !important;
         }
 
-        /* Reviews Section */
         .reviews-section {
             max-width: 900px;
             margin: 4rem auto;

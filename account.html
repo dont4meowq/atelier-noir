@@ -13,7 +13,6 @@
             padding: 6rem 3rem 4rem;
         }
 
-        /* Login/Register Styles */
         .auth-container {
             max-width: 500px;
             margin: 0 auto;
@@ -117,7 +116,6 @@
             color: var(--primary-dark);
         }
 
-        /* Dashboard Styles */
         .dashboard {
             display: none;
         }
@@ -194,7 +192,6 @@
             display: block;
         }
 
-        /* Wishlist Styles */
         .wishlist-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -291,7 +288,6 @@
             color: var(--text-muted);
         }
 
-        /* Orders Styles */
         .order-card {
             border: 1px solid var(--border-subtle);
             border-radius: 12px;
@@ -346,7 +342,6 @@
             border-radius: 8px;
         }
 
-        /* Settings Styles */
         .settings-section {
             max-width: 600px;
         }
@@ -376,7 +371,7 @@
     </style>
 </head>
 <body>
-    <!-- Navigation -->
+    
     <nav>
         <div class="nav-container">
             <a href="index.html" class="logo">ATELIER NOIR</a>
@@ -395,7 +390,7 @@
     </nav>
 
     <div class="account-wrapper">
-        <!-- Login/Register Section -->
+        
         <div id="authSection" class="auth-container">
             <div class="auth-header">
                 <h1>Welcome Back</h1>
@@ -407,7 +402,6 @@
                 <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
             </div>
 
-            <!-- Login Form -->
             <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label>Email</label>
@@ -420,7 +414,6 @@
                 <button type="submit" class="btn-submit">Sign In</button>
             </form>
 
-            <!-- Register Form -->
             <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
                 <div class="form-group">
                     <label>Full Name</label>
@@ -438,7 +431,6 @@
             </form>
         </div>
 
-        <!-- Dashboard Section -->
         <div id="dashboardSection" class="dashboard">
             <div class="dashboard-header">
                 <h1>My Account</h1>
@@ -452,7 +444,6 @@
                 <a href="admin.html" id="adminPanelBtn" style="display:none;padding:0.6rem 1.5rem;background:var(--accent-gold);color:var(--primary-dark);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;margin-left:auto;">⚙ Admin Panel</a>
             </div>
 
-            <!-- Wishlist Section -->
             <div id="wishlistSection" class="dashboard-section active">
                 <h2 style="margin-bottom: 2rem;">My Wishlist</h2>
                 <div id="wishlistGrid" class="wishlist-grid"></div>
@@ -463,7 +454,6 @@
                 </div>
             </div>
 
-            <!-- Orders Section -->
             <div id="ordersSection" class="dashboard-section">
                 <h2 style="margin-bottom: 2rem;">Order History</h2>
                 <div id="ordersContainer"></div>
@@ -474,7 +464,6 @@
                 </div>
             </div>
 
-            <!-- Settings Section -->
             <div id="settingsSection" class="dashboard-section">
                 <h2 style="margin-bottom: 2rem;">Account Settings</h2>
                 <div class="settings-section">
@@ -512,7 +501,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
     <footer>
         <div class="footer-content">
             <div>
@@ -561,8 +549,7 @@
 
     <script src="script.js"></script>
     <script>
-        // Expose functions needed by HTML onclick attributes
-        // ==================== GLOBAL FUNCTIONS (called via onclick in HTML) ====================
+
         window.switchAuthTab = function(tab) {
             document.querySelectorAll('.auth-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
@@ -641,8 +628,6 @@
             }
         };
 
-        // ==================== AUTH ====================
-
         window.addEventListener('DOMContentLoaded', async () => {
             const token = getAccessToken();
             if (token) {
@@ -695,7 +680,6 @@
 
                 const data = await signUp(email, password, firstName, lastName);
 
-                // Supabase може вимагати підтвердження email
                 if (data.user && !data.access_token) {
                     showNotification('Check your email to confirm registration');
                 } else {
@@ -716,7 +700,7 @@
         async function showDashboard() {
             document.getElementById('authSection').style.display = 'none';
             document.getElementById('dashboardSection').classList.add('active');
-            // Перевірити чи адмін
+            
             await checkAdminButton();
         }
 
@@ -735,7 +719,6 @@
             }
         }
 
-        // Wishlist Functions
         async function loadWishlist() {
             const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
             const grid = document.getElementById('wishlistGrid');
@@ -774,7 +757,6 @@
             }
         }
 
-        // Orders Functions
         async function loadOrders() {
             const container = document.getElementById('ordersContainer');
             const empty = document.getElementById('ordersEmpty');
@@ -786,7 +768,6 @@
                 return;
             }
 
-            // Отримати замовлення по email
             const ordersRes = await fetch(
                 `${SUPABASE_URL}/rest/v1/orders?email=eq.${encodeURIComponent(email)}&order=created_at.desc`,
                 { headers: SB_HEADERS }
@@ -804,7 +785,7 @@
             container.innerHTML = '';
 
             for (const order of orders) {
-                // Отримати товари замовлення
+                
                 const itemsRes = await fetch(
                     `${SUPABASE_URL}/rest/v1/order_items?order_id=eq.${order.id}`,
                     { headers: SB_HEADERS }
