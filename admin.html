@@ -528,13 +528,6 @@
         let allProducts = [];
         let allOrders = [];
 
-        function esc(s) {
-            if (s == null) return '';
-            return String(s).replace(/[&<>"']/g, c => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            })[c]);
-        }
-
         // ==================== AUTH ====================
 
         async function adminLogin() {

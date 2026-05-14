@@ -863,6 +863,13 @@ function getQueryParam(param) {
     return new URLSearchParams(window.location.search).get(param);
 }
 
+function esc(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+}
+
 
 
 
@@ -937,6 +944,19 @@ function safeParseJSON(raw, fallback) {
 
 let cart = safeParseJSON(localStorage.getItem('cart'), []);
 if (!Array.isArray(cart)) cart = [];
+
+// Cross-tab sync: when cart changes in another tab, update this one
+window.addEventListener('storage', (e) => {
+    if (e.key === 'cart') {
+        cart = safeParseJSON(localStorage.getItem('cart'), []);
+        if (!Array.isArray(cart)) cart = [];
+        updateCartCount();
+        if (typeof renderCart === 'function') renderCart();
+    } else if (e.key === 'wishlist') {
+        updateWishlistButtons();
+        if (typeof loadWishlist === 'function') loadWishlist();
+    }
+});
 
 function updateCartCount() {
     const total = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -1159,18 +1179,18 @@ function renderProductCard(product) {
              onclick="${outOfStock ? '' : `window.location.href='product-detail.html?id=${product.id}'`}"
              style="${outOfStock ? 'cursor:default;' : ''}">
             <div class="product-image-wrapper">
-                <img src="${product.image}" alt="${product.name}" class="product-image"
+                <img src="${esc(product.image)}" alt="${esc(product.name)}" class="product-image"
                      style="object-fit:cover;${outOfStock ? 'filter:grayscale(60%);opacity:0.7;' : ''}">
                 ${outOfStock
                     ? '<span class="product-badge" style="background:#888;">OUT OF STOCK</span>'
-                    : product.badge ? `<span class="product-badge">${product.badge}</span>` : ''
+                    : product.badge ? `<span class="product-badge">${esc(product.badge)}</span>` : ''
                 }
                 ${lowStock ? `<span class="stock-warning">Only ${product.stock} left</span>` : ''}
             </div>
             <div class="product-info">
-                <p class="product-category">${product.category}</p>
-                <h3 class="product-name">${product.name}</h3>
-                <p class="product-price">$${product.price}</p>
+                <p class="product-category">${esc(product.category)}</p>
+                <h3 class="product-name">${esc(product.name)}</h3>
+                <p class="product-price">$${esc(product.price)}</p>
             </div>
         </div>
     `;

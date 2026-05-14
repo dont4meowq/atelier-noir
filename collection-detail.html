@@ -186,19 +186,8 @@
                 return;
             }
 
-            productsContainer.innerHTML = ordered.map(p => `
-                <div class="product-card" onclick="window.location.href='product-detail.html?id=${p.id}'">
-                    <div class="product-image-wrapper">
-                        <img src="${p.image}" alt="${p.name}" class="product-image" style="object-fit:cover;">
-                        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
-                    </div>
-                    <div class="product-info">
-                        <p class="product-category">${p.category}</p>
-                        <h3 class="product-name">${p.name}</h3>
-                        <p class="product-price">$${p.price}</p>
-                    </div>
-                </div>
-            `).join('');
+            productsContainer.innerHTML = ordered.map(p => renderProductCard(p)).join('');
+            productsContainer.querySelectorAll('.fade-in-on-scroll').forEach(el => el.classList.add('visible'));
         }
 
         document.addEventListener('DOMContentLoaded', loadCollection);

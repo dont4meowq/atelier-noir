@@ -327,22 +327,23 @@
             const tax = subtotal * 0.1; 
             const total = subtotal + shipping + tax;
 
+            const jsStr = v => v ? `'${String(v).replace(/'/g, "\\'")}'` : 'null';
             container.innerHTML = `
                 <div class="cart-items">
                     ${cart.map(item => `
                         <div class="cart-item">
-                            <img src="${item.image || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=90'}" alt="${item.name}" class="cart-item-image" style="width: 120px; height: 160px; object-fit: cover;">
+                            <img src="${esc(item.image) || 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&q=90'}" alt="${esc(item.name)}" class="cart-item-image" style="width: 120px; height: 160px; object-fit: cover;">
                             <div class="cart-item-details">
-                                <h3>${item.name}</h3>
-                                <p class="item-category">${item.category}</p>
-                                ${item.selectedSize ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Size: ${item.selectedSize}</div>` : ''}
-                                ${item.selectedColor ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Color: ${item.selectedColor}</div>` : ''}
+                                <h3>${esc(item.name)}</h3>
+                                <p class="item-category">${esc(item.category)}</p>
+                                ${item.selectedSize ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Size: ${esc(item.selectedSize)}</div>` : ''}
+                                ${item.selectedColor ? `<div class="item-options" style="margin: 0.5rem 0; font-size: 0.9rem; color: var(--text-muted);">Color: ${esc(item.selectedColor)}</div>` : ''}
                                 <div class="quantity-controls-cart">
-                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">-</button>
-                                    <input type="number" value="${item.quantity}" min="1" max="10" 
-                                           onchange="updateCartItemQuantity(${item.id}, this.value, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">
-                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})">+</button>
-                                    <button class="remove-btn" onclick="removeFromCart(${item.id}, ${item.selectedSize ? `'${item.selectedSize}'` : 'null'}, ${item.selectedColor ? `'${item.selectedColor}'` : 'null'})" title="Remove item">×</button>
+                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity - 1}, ${jsStr(item.selectedSize)}, ${jsStr(item.selectedColor)})">-</button>
+                                    <input type="number" value="${item.quantity}" min="1" max="10"
+                                           onchange="updateCartItemQuantity(${item.id}, this.value, ${jsStr(item.selectedSize)}, ${jsStr(item.selectedColor)})">
+                                    <button onclick="updateCartItemQuantity(${item.id}, ${item.quantity + 1}, ${jsStr(item.selectedSize)}, ${jsStr(item.selectedColor)})">+</button>
+                                    <button class="remove-btn" onclick="removeFromCart(${item.id}, ${jsStr(item.selectedSize)}, ${jsStr(item.selectedColor)})" title="Remove item">×</button>
                                 </div>
                             </div>
                             <div class="cart-item-price">

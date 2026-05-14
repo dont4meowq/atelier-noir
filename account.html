@@ -438,9 +438,9 @@
             </div>
 
             <div class="dashboard-nav">
-                <button class="dashboard-tab active" onclick="switchDashboardTab('wishlist')">Wishlist</button>
-                <button class="dashboard-tab" onclick="switchDashboardTab('orders')">Orders</button>
-                <button class="dashboard-tab" onclick="switchDashboardTab('settings')">Settings</button>
+                <button class="dashboard-tab active" data-tab="wishlist" onclick="switchDashboardTab('wishlist', this)">Wishlist</button>
+                <button class="dashboard-tab" data-tab="orders" onclick="switchDashboardTab('orders', this)">Orders</button>
+                <button class="dashboard-tab" data-tab="settings" onclick="switchDashboardTab('settings', this)">Settings</button>
                 <a href="admin.html" id="adminPanelBtn" style="display:none;padding:0.6rem 1.5rem;background:var(--accent-gold);color:var(--primary-dark);font-family:'Montserrat',sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none;border:none;cursor:pointer;margin-left:auto;">⚙ Admin Panel</a>
             </div>
 
@@ -569,10 +569,11 @@
             location.reload();
         };
 
-        window.switchDashboardTab = function(tab) {
-            document.querySelectorAll('.dashboard-tab').forEach(btn => btn.classList.remove('active'));
+        window.switchDashboardTab = function(tab, btn) {
+            document.querySelectorAll('.dashboard-tab').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.dashboard-section').forEach(section => section.classList.remove('active'));
-            event.target.classList.add('active');
+            if (btn) btn.classList.add('active');
+            else document.querySelector(`.dashboard-tab[data-tab="${tab}"]`)?.classList.add('active');
             document.getElementById(tab + 'Section').classList.add('active');
             if (tab === 'wishlist') loadWishlist();
             if (tab === 'orders') loadOrders();
@@ -765,10 +766,10 @@
                     card.onclick = () => window.location.href = `product-detail.html?id=${product.id}`;
                     card.innerHTML = `
                         <button class="wishlist-remove" onclick="event.stopPropagation(); removeFromWishlist(${product.id})">×</button>
-                        <img src="${product.image}" alt="${product.name}">
+                        <img src="${esc(product.image)}" alt="${esc(product.name)}">
                         <div class="wishlist-info">
-                            <h3>${product.name}</h3>
-                            <p class="wishlist-price">$${product.price}</p>
+                            <h3>${esc(product.name)}</h3>
+                            <p class="wishlist-price">$${esc(product.price)}</p>
                             <button class="btn-add-to-cart" onclick="event.stopPropagation(); addToCartFromWishlist(${product.id})">
                                 Add to Cart
                             </button>
@@ -816,11 +817,11 @@
 
                 const itemsHTML = items.map(item => `
                     <div class="order-item">
-                        <img src="${item.image}" alt="${item.name}" style="width:60px;height:80px;object-fit:cover;border-radius:4px;">
+                        <img src="${esc(item.image)}" alt="${esc(item.name)}" style="width:60px;height:80px;object-fit:cover;border-radius:4px;">
                         <div>
-                            <strong>${item.name}</strong><br>
-                            ${item.selected_size ? `Size: ${item.selected_size}<br>` : ''}
-                            ${item.selected_color ? `Color: ${item.selected_color}<br>` : ''}
+                            <strong>${esc(item.name)}</strong><br>
+                            ${item.selected_size ? `Size: ${esc(item.selected_size)}<br>` : ''}
+                            ${item.selected_color ? `Color: ${esc(item.selected_color)}<br>` : ''}
                             Qty: ${item.quantity} × $${item.price}
                         </div>
                     </div>
@@ -839,11 +840,11 @@
                 orderCard.innerHTML = `
                     <div class="order-header">
                         <div>
-                            <div class="order-number">Order ${order.order_number}</div>
+                            <div class="order-number">Order ${esc(order.order_number)}</div>
                             <small>${new Date(order.created_at).toLocaleDateString()}</small>
                         </div>
                         <div class="order-status" style="color:${statusColor};font-weight:600;font-size:0.85rem;letter-spacing:1px;">
-                            ${order.status.toUpperCase()}
+                            ${esc(order.status.toUpperCase())}
                         </div>
                     </div>
                     <div class="order-items">${itemsHTML}</div>

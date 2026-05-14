@@ -602,13 +602,13 @@
                 subtotal += itemTotal;
                 orderItemsContainer.innerHTML += `
                     <div class="summary-item">
-                        <img src="${item.image}" alt="${item.name}">
+                        <img src="${esc(item.image)}" alt="${esc(item.name)}">
                         <div class="summary-item-info">
-                            <div class="summary-item-name">${item.name}</div>
+                            <div class="summary-item-name">${esc(item.name)}</div>
                             <div class="summary-item-details">
                                 Qty: ${item.quantity} × $${item.price}
                             </div>
-                            <div style="font-weight:600;margin-top:0.3rem;">$${itemTotal}</div>
+                            <div style="font-weight:600;margin-top:0.3rem;">$${itemTotal.toFixed(2)}</div>
                         </div>
                     </div>
                 `;
@@ -632,6 +632,8 @@
         }
 
         window.placeOrder = async function placeOrder() {
+            const placeBtn = document.querySelector('.btn-place-order');
+            if (placeBtn?.disabled) return;
             const requiredFields = ['email', 'firstName', 'lastName', 'address', 'city', 'state', 'postal', 'country'];
             let isValid = true;
 
@@ -690,7 +692,14 @@
                 return;
             }
 
-            
+            // Disable button to prevent double-submit
+            const originalBtnText = placeBtn ? placeBtn.textContent : '';
+            if (placeBtn) {
+                placeBtn.disabled = true;
+                placeBtn.textContent = 'Placing order...';
+            }
+
+            try {
             const requiredByProduct = {};
             for (const item of cart) {
                 requiredByProduct[item.id] = (requiredByProduct[item.id] || 0) + item.quantity;
@@ -835,6 +844,14 @@
 
             document.getElementById('orderNumberDisplay').textContent = orderNumber;
             document.getElementById('successModal').classList.add('active');
+            } catch (err) {
+                console.error('placeOrder failed:', err);
+            } finally {
+                if (placeBtn) {
+                    placeBtn.disabled = false;
+                    placeBtn.textContent = originalBtnText || 'Place Order';
+                }
+            }
         };
 
         document.getElementById('cardNumber')?.addEventListener('input', function(e) {
